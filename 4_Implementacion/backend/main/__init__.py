@@ -17,7 +17,7 @@ def jls_extract_def():
 
 
 def create_app():
-	# app = Flask(__name__)
+	app = Flask(__name__)
 	load_dotenv()
 
 	print("iniciando db")
@@ -30,7 +30,7 @@ def create_app():
 	# import main.resources as resources
 	# api.add_resource(resources.PoemaResource, '/poema/<poema_id>')                                                   #EJEMPLO = jls_extract_def()
 	
-	# api.init_app(app)
+	api.init_app(app)
 	
 	# app.config['PROPAGATE_EXCEPTIONS'] = True
 	# app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
@@ -40,4 +40,4 @@ def create_app():
 	# from main.auth import routes
 	# app.register_blueprint(auth.routes.auth)                                                                         #No se si va
     
-	# return app
+	return app
