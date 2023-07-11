@@ -1,10 +1,12 @@
 from flask import Flask, jsonify, request, Response
 from flask_jwt_extended import JWTManager
 from flask_pymongo import PyMongo
+from flask_restful import Api
 from bson import json_util
 from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token
+from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token, verify_jwt_in_request
+
 
 app = Flask(__name__)
 
@@ -16,17 +18,11 @@ mongo = PyMongo(app)
 
 jwt = JWTManager(app)
 
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 3600
 
-# #Define que atributos se guardarán dentro del token
-# @jwt.additional_claims_loader
-# def add_claims_to_access_token(usuario):
-#     claims = {
-#         'admin': usuario.admin,
-#         'usuario_id': usuario.usuario_id,
-#         'correo': usuario.correo,
-#         "alias": usuario.alias,
-#     }
-#     return claims
+jwt.init_app(app)
+
+# -------------------------------------------------------
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -43,19 +39,32 @@ def register():
     cuenta = mongo.db.users.find_one({"correo": correo})
     if cuenta == None:
         if correo and password:
-            # hashed_password = generate_password_hash(password)
-            hashed_password = password
+            hashed_password = generate_password_hash(password)
             id = mongo.db.users.insert_one(
                 {
-                'correo': correo, 
-                'password': hashed_password
+                'correo': correo,
+                "alias": alias,
+                "nombre": nombre, 
+                'password': hashed_password,
+                "descripcion": descripcion,
+                "foto": foto,
+                "seguidores": [],
+                "seguidos": [],
+                "admin": 0
                 }
             )
             response = jsonify(
                 {
                 '_id': str(id),
                 'correo': correo,
-                'password': password
+                "alias": alias,
+                "nombre": nombre, 
+                'password': hashed_password,
+                "descripcion": descripcion,
+                "foto": foto,
+                "seguidores": [],
+                "seguidos": [],
+                "admin": 0
                 }
             )
             response.status_code = 201
@@ -68,15 +77,12 @@ def register():
 
 @app.route('/login', methods=['POST'])
 def login():
-    email = request.json['email']
+    correo = request.json['correo']
     password = request.json['password']
-    # hashed_password = generate_password_hash(password) 
-    #! validacion_contra
-    # return check_password_hash(self.contra, c)   
-    hashed_password = password
-    user = mongo.db.users.find_one({"email": email, "password": hashed_password})
-    if user != None:
-        access_token = create_access_token(identity=email)
+    user = mongo.db.users.find_one({"correo": correo})
+    password_hashed = user["password"]
+    if check_password_hash(password_hashed, password):
+        access_token = create_access_token(identity=correo)
         data = {
                 'access_token': access_token
             }
@@ -95,22 +101,20 @@ def not_found(error=None):
     response.status_code = 404
     return response
 
+# -------------------------------------------------------
+
+@app.route('/users', methods=['GET'])
+def get():
+    users = mongo.db.users.find()
+    response = json_util.dumps(users)
+    return Response(response, mimetype="application/json")
 
 
-
-# @app.route('/users', methods=['GET'])
-# def get_users():
-#     users = mongo.db.users.find()
-#     response = json_util.dumps(users)
-#     return Response(response, mimetype="application/json")
-
-
-# @app.route('/users/<id>', methods=['GET'])
-# def get_user(id):
-#     print(id)
-#     user = mongo.db.users.find_one({'_id': ObjectId(id), })
-#     response = json_util.dumps(user)
-#     return Response(response, mimetype="application/json")
+@app.route('/user/<correo>', methods=['GET'])
+def get_user(correo):
+    user = mongo.db.users.find_one({'correo': correo, })
+    response = json_util.dumps(user)
+    return Response(response, mimetype="application/json")
 
 
 # @app.route('/users/<id>', methods=['DELETE'])
@@ -134,10 +138,9 @@ def not_found(error=None):
 #         response.status_code = 200
 #         return response
 #     else:
-#       return not_found()
+#         return not_found()
 
-
-
+# -------------------------------------------------------
 
 
 if __name__ == "__main__":
