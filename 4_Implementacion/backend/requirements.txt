@@ -1,5 +1,7 @@
 flask
+flask_pymongo
 python-dotenv
 pymongo
 flask-restful
 flask-jwt-extended
+certifi
