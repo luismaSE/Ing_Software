@@ -17,10 +17,6 @@ mongo = PyMongo(app)
 jwt = JWTManager(app)
 
 
-# @jwt.user_identity_loader
-# def user_identity_lookup(email):
-#     return email
-
 # #Define que atributos se guardarán dentro del token
 # @jwt.additional_claims_loader
 # def add_claims_to_access_token(usuario):
@@ -34,23 +30,40 @@ jwt = JWTManager(app)
 
 @app.route('/register', methods=['POST'])
 def register():
-    # Receiving Data
-    email = request.json['email']
+    #! campos obligatorios
+    correo = request.json['correo']
+    alias = request.json['alias']
+    nombre = request.json['nombre']
     password = request.json['password']
-    if email and password:
-        # hashed_password = generate_password_hash(password)
-        hashed_password = password
-        id = mongo.db.users.insert_one(
-            {'email': email, 'password': hashed_password})
-        response = jsonify({
-            '_id': str(id),
-            'email': email,
-            'password': password
-        })
-        response.status_code = 200
-        return response
+    
+    #! no obligatorio
+    descripcion = request.json['descripcion']
+    foto = request.json['foto']
+    
+    cuenta = mongo.db.users.find_one({"correo": correo})
+    if cuenta == None:
+        if correo and password:
+            # hashed_password = generate_password_hash(password)
+            hashed_password = password
+            id = mongo.db.users.insert_one(
+                {
+                'correo': correo, 
+                'password': hashed_password
+                }
+            )
+            response = jsonify(
+                {
+                '_id': str(id),
+                'correo': correo,
+                'password': password
+                }
+            )
+            response.status_code = 201
+            return response
+        else:
+            return not_found()
     else:
-        return not_found()
+        return "Ya existe un usuario con ese email", 409
 
 
 @app.route('/login', methods=['POST'])
