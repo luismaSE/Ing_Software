@@ -1,4 +1,4 @@
-from app import jwt
+from .. import jwt
 from flask import jsonify
 from flask_jwt_extended import verify_jwt_in_request, get_jwt
 from functools import wraps
@@ -15,18 +15,17 @@ def admin_required(fn):
     return wrapper
 
 
-@jwt.user_identity_loader
-def user_identity_lookup(usuario):
-    return usuario._id
+# @jwt.user_identity_loader
+# def user_identity_lookup(usuario):
+#     return usuario._id
 
 
-#! Define que atributos se guardarán dentro del token
-@jwt.additional_claims_loader
-def add_claims_to_access_token(usuario):
-    claims = {
-        'admin': usuario.admin,
-        '_id': usuario._id,
-        'correo': usuario.correo,
-        "nombre": usuario.nombre,
-    }
-    return claims
+# #! Define que atributos se guardarán dentro del token
+# @jwt.additional_claims_loader
+# def add_claims_to_access_token(identity):
+#     claims = {
+#         'admin': identity["admin"],
+#         'correo': identity["correo"],
+#         "nombre": identity["nombre"],
+#     }
+#     return claims

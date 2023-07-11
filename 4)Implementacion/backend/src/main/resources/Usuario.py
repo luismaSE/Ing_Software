@@ -1,11 +1,14 @@
 from flask_restful import Resource
 from flask import request, jsonify, session, Response
+from .. import mongo
 from bson import json_util
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
+from main.auth.decorators import admin_required
 from werkzeug.security import generate_password_hash, check_password_hash
-from .. import mongo
 
 class Usuario(Resource):
+
+    @jwt_required()
     def get(self, correo):
         user = mongo.db.users.find_one({'correo': correo, })
         response = json_util.dumps(user)
@@ -36,6 +39,7 @@ class Usuario(Resource):
 
 class Usuarios(Resource):
 
+    @admin_required
     def get(self):
         users = mongo.db.users.find()
         response = json_util.dumps(users)

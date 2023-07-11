@@ -64,11 +64,9 @@ def login():
     user = mongo.db.users.find_one({"correo": correo})
     password_hashed = user["password"]
     if check_password_hash(password_hashed, password):
-        access_token = create_access_token(identity=correo)
-        data = {
-                'access_token': access_token
-            }
-        return data, 200
+        additional_claims = {"admin":user["admin"], "correo": user["correo"], "nombre": user["nombre"]}
+        access_token = create_access_token(identity=correo,additional_claims=additional_claims)
+        return jsonify(access_token=access_token),201
     else:
         return not_found()
     
