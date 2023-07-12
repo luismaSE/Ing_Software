@@ -5,40 +5,38 @@ from bson import json_util
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 from main.auth.decorators import admin_required
 from werkzeug.security import generate_password_hash, check_password_hash
+from ..models import Usuario
 
 class Usuario(Resource):
 
     def get(self, alias):
-        user = mongo.db.users.find_one({'alias': alias, })
+        user = mongo.db.users.find_one({'alias': alias})
         response = json_util.dumps(user)
         return Response(response, mimetype="application/json")
 
     # Seguir o dejar de seguir
     @jwt_required()
     def put(self, alias):
-        #Alias = usuario a seguir
-        #User = datos del usuario a seguir
-        #Usuario = yo
-        #user2 = mis datos
         
-        user = mongo.db.users.find_one({"alias": alias}) 
-        if user is None:
+        
+        seguido = mongo.db.users.find_one({"alias": alias})
+        if seguido is None:
             return "Usuario inexistente", 404
-        
+
         claims = get_jwt()
-        usuario = claims["alias"]
-        user2 = mongo.db.users.find_one({"alias": usuario}) 
+        mi_alias = claims["alias"]
+        mi_usuario = mongo.db.users.find_one({"alias": mi_alias}) 
         
-        if usuario == alias:
+        if mi_alias == alias:
             return "No te podes autoseguir.", 404
 
-        if usuario in user["seguidores"]:
-            mongo.db.users.update_one({"alias": alias},{'$pull': {'seguidores': usuario}})
-            mongo.db.users.update_one({"alias": usuario},{'$pull': {'seguidos': alias}})
+        if mi_alias in seguido["seguidores"]:
+            mongo.db.users.update_one({"alias": alias},{'$pull': {'seguidores': mi_alias}})
+            mongo.db.users.update_one({"alias": mi_alias},{'$pull': {'seguidos': alias}})
             return "Dejaste seguir a '{}'".format(alias), 201
 
-        mongo.db.users.update_one({"alias": alias},{'$push': {'seguidores': usuario}})
-        mongo.db.users.update_one({"alias": usuario}, {'$push': {'seguidos': alias}})
+        mongo.db.users.update_one({"alias": alias},{'$push': {'seguidores': mi_alias}})
+        mongo.db.users.update_one({"alias": mi_alias}, {'$push': {'seguidos': alias}})
 
         return "Comenzaste de seguir a '{}'".format(alias), 201
 

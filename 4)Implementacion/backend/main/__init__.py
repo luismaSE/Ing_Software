@@ -1,10 +1,19 @@
-from flask import Flask, Response, jsonify, request
+from flask import Flask, Response, jsonify, request, redirect, url_for
 from flask_jwt_extended import JWTManager
-from flask_login import LoginManager
 from flask_pymongo import PyMongo
 from flask_restful import Api
 from dotenv import load_dotenv
 import os
+from flask_login import (
+    LoginManager,
+    current_user,
+    login_required,
+    login_user,
+    logout_user,
+)
+from oauthlib.oauth2 import WebApplicationClient
+import requests
+
 
 api = Api()
 
@@ -57,6 +66,8 @@ def create_app():
     api.add_resource(resources.MensajesResource, "/mensajes")    #Post
     api.add_resource(resources.MensajeResource, "/mensaje/<_id>")    #Delete
     api.add_resource(resources.MensajesAutorResource, "/mensajes/<autor>")  #Get
+
+    api.add_resource(resources.MensajePrivadoResource, "/mensajeprivado")   #Get, post
     
 
 

@@ -47,8 +47,25 @@ class Mensajes(Resource):
         response.status_code = 201
         
         return response
-        
 
+
+    @jwt_required()
+    def get(self):
+
+        claims = get_jwt()
+        alias = claims["alias"]
+
+        datos = mongo.db.users.find_one({"alias":alias})
+
+        seguidos = datos["seguidos"]
+
+        mensajes = mongo.db.messages.find({"autor": {"$in": seguidos}}).sort("fecha", -1)
+ 
+        response = json_util.dumps(mensajes)
+        
+        return Response(response, mimetype="application/json")
+
+        
 class Mensaje(Resource):
     @jwt_required()
     def delete(self, _id):
@@ -61,7 +78,7 @@ class Mensaje(Resource):
         autor_mensaje = mongo.db.messages.find_one({"_id":object_id, "autor":autor})
         
         if autor_mensaje is None:
-            return "No podes borrar mensaje ajenos", 404
+            return "No podes borrar mensaje ajenos", 403
 
         mongo.db.messages.delete_one({'_id': object_id})
 
@@ -69,7 +86,7 @@ class Mensaje(Resource):
 
 
 class MensajesAutor(Resource):
-
+    # Para ver muro de usuario
     def get(self, autor):
         mensajes = mongo.db.messages.find_one({'autor': autor, })
         response = json_util.dumps(mensajes)

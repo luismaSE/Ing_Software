@@ -15,9 +15,9 @@ Casos de Uso:
 - Publicar mensaje --> OK
 - Borrar mensaje --> OK
 - Leer muro de un usuario --> OK
-- Ver tablón de anuncios 
+- Ver tablón de anuncios --> OK
 - Ver temas del momento
-- Enviar mensaje privado
+- Enviar mensaje privado --> OK
 
 
 Extra: 
