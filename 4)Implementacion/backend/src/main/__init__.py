@@ -4,30 +4,29 @@ from flask_login import LoginManager
 from flask_pymongo import PyMongo
 from flask_restful import Api
 from dotenv import load_dotenv
+import os
 
 api = Api()
-
-login_manager = LoginManager()
 
 mongo = PyMongo()
 
 jwt = JWTManager()
-
-
 
 def create_app():
     
     app = Flask(__name__)
     load_dotenv()
 
-    app.secret_key = 'myawesomesecretkey'   # <<<<<<<<< generar con  python -c 'import secrets; print(secrets.token_hex())' en la consola
-    app.config['MONGO_URI'] = "mongodb+srv://microblog:microblog1234@cluster0.7houovt.mongodb.net/microblog?retryWrites=true&w=majority&ssl=true&tlsAllowInvalidCertificates=true"
+    app.secret_key = os.getenv('SECRET_KEY')   #TODO << generar con  python -c 'import secrets; print(secrets.token_hex())' en la consola
+    app.config['JWT_ACCESS_TOKEN_EXPIRES'] = int(os.getenv("JWT_ACCESS_TOKEN_EXPIRES"))                                                        #
+    app.config['MONGO_URI'] = os.getenv('DATABASE_CLIENT')
     
+    login_manager = LoginManager()
     login_manager.init_app(app)
     mongo.init_app(app)
-    
     jwt.init_app(app)
-    app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 3600
+    
+    # client = WebApplicationClient(GOOGLE_CLIENT_ID)
 
     #! Para que siempre exista un admin
     admin = mongo.db.users.find_one({"admin": 1})    
@@ -69,3 +68,8 @@ def create_app():
     app.register_blueprint(routes.auth)
 
     return app
+
+
+#     @login_manager.user_loader
+# def load_user(user_id):
+#     return User.get(user_id)

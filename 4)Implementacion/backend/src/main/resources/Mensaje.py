@@ -59,7 +59,7 @@ class Mensaje(Resource):
         object_id = ObjectId(_id)
     
         autor_mensaje = mongo.db.messages.find_one({"_id":object_id, "autor":autor})
-        print("\n"*5, autor_mensaje)
+        
         if autor_mensaje is None:
             return "No podes borrar mensaje ajenos", 404
 

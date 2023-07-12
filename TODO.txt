@@ -15,6 +15,10 @@ Casos de Uso:
 - Publicar mensaje --> OK
 - Borrar mensaje --> OK
 - Leer muro de un usuario --> OK
-- Enviar mensaje privado
 - Ver tablón de anuncios 
 - Ver temas del momento
+- Enviar mensaje privado
+
+
+Extra: 
+- Dejar de seguir usuario --> OK

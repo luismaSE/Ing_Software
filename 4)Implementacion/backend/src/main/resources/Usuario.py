@@ -13,22 +13,34 @@ class Usuario(Resource):
         response = json_util.dumps(user)
         return Response(response, mimetype="application/json")
 
+    # Seguir o dejar de seguir
     @jwt_required()
     def put(self, alias):
-        user = mongo.db.users.find_one({"alias": alias})        
+        #Alias = usuario a seguir
+        #User = datos del usuario a seguir
+        #Usuario = yo
+        #user2 = mis datos
+        
+        user = mongo.db.users.find_one({"alias": alias}) 
         if user is None:
             return "Usuario inexistente", 404
         
         claims = get_jwt()
         usuario = claims["alias"]
+        user2 = mongo.db.users.find_one({"alias": usuario}) 
         
         if usuario == alias:
             return "No te podes autoseguir.", 404
-        
+
+        if usuario in user["seguidores"]:
+            mongo.db.users.update_one({"alias": alias},{'$pull': {'seguidores': usuario}})
+            mongo.db.users.update_one({"alias": usuario},{'$pull': {'seguidos': alias}})
+            return "Dejaste seguir a '{}'".format(alias), 201
+
         mongo.db.users.update_one({"alias": alias},{'$push': {'seguidores': usuario}})
         mongo.db.users.update_one({"alias": usuario}, {'$push': {'seguidos': alias}})
 
-        return "Comenzaste a seguir a '{}'".format(alias), 201
+        return "Comenzaste de seguir a '{}'".format(alias), 201
 
 
     # @app.route('/users/<id>', methods=['DELETE'])
