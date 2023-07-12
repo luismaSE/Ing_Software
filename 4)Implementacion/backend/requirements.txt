@@ -1,0 +1,7 @@
+flask-login
+WTForms
+oauthlib
+requests
+
+
+pyOpenSSL

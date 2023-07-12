@@ -2,9 +2,11 @@ from flask import request, jsonify, Blueprint
 from .. import mongo
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token
-
+from flask_login import LoginManager
+import wtforms
 
 auth = Blueprint('auth', __name__, url_prefix='/auth')
+
 
 @auth.route('/register', methods=['POST'])
 def register():
@@ -14,12 +16,18 @@ def register():
     nombre = request.json['nombre']
     password = request.json['password']
     
+    #TODO API del diego para los emails.
+    if len(alias) > 15:
+        return "El alias no puede tener más de 15 caracteres.", 409
+    
     #! no obligatorio
     descripcion = request.json['descripcion']
     foto = request.json['foto']
     
     cuenta = mongo.db.users.find_one({"correo": correo})
-    if cuenta == None:
+    alias2 = mongo.db.users.find_one({"alias": alias})
+    
+    if cuenta == None and alias2 == None:
         if correo and password:
             hashed_password = generate_password_hash(password)
             id = mongo.db.users.insert_one(
@@ -54,7 +62,7 @@ def register():
         else:
             return not_found()
     else:
-        return "Ya existe un usuario con ese email", 409
+        return "Ya existe un usuario con ese email o alias.", 409
 
 
 @auth.route('/login', methods=['POST'])
@@ -63,13 +71,26 @@ def login():
     password = request.json['password']
     user = mongo.db.users.find_one({"correo": correo})
     password_hashed = user["password"]
+    
+    #! Contenido del JWT
     if check_password_hash(password_hashed, password):
-        additional_claims = {"admin":user["admin"], "correo": user["correo"], "nombre": user["nombre"]}
+        additional_claims = {
+            "admin":user["admin"], 
+            "correo": user["correo"], 
+            "alias": user["alias"]
+            }
         access_token = create_access_token(identity=correo,additional_claims=additional_claims)
         return jsonify(access_token=access_token),201
     else:
         return not_found()
-    
+
+
+# @auth.route('/login_oauth', methods=['POST'])
+# def login_oauth():
+#     form = wtf
+#     if form.validate_on_submit():
+#         pass
+
 
 @auth.errorhandler(404)
 def not_found(error=None):

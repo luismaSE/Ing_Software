@@ -8,11 +8,28 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 class Usuario(Resource):
 
-    @jwt_required()
-    def get(self, correo):
-        user = mongo.db.users.find_one({'correo': correo, })
+    def get(self, alias):
+        user = mongo.db.users.find_one({'alias': alias, })
         response = json_util.dumps(user)
         return Response(response, mimetype="application/json")
+
+    @jwt_required()
+    def put(self, alias):
+        user = mongo.db.users.find_one({"alias": alias})        
+        if user is None:
+            return "Usuario inexistente", 404
+        
+        claims = get_jwt()
+        usuario = claims["alias"]
+        
+        if usuario == alias:
+            return "No te podes autoseguir.", 404
+        
+        mongo.db.users.update_one({"alias": alias},{'$push': {'seguidores': usuario}})
+        mongo.db.users.update_one({"alias": usuario}, {'$push': {'seguidos': alias}})
+
+        return "Comenzaste a seguir a '{}'".format(alias), 201
+
 
     # @app.route('/users/<id>', methods=['DELETE'])
     # def delete_user(id):
@@ -36,13 +53,18 @@ class Usuario(Resource):
     #         return response
     #     else:
     #         return not_found()
-
+        
 class Usuarios(Resource):
 
-    @admin_required
     def get(self):
         users = mongo.db.users.find()
         response = json_util.dumps(users)
         return Response(response, mimetype="application/json")
 
 
+class UsuariosEncontrados(Resource):
+
+    def get(self, alias):
+        user = mongo.db.users.find({'alias': {'$regex': alias, '$options': 'i'}})
+        response = json_util.dumps(user)
+        return Response(response, mimetype="application/json")

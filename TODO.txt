@@ -7,14 +7,14 @@ Lo que corrigio el profe la ultima clase:
 
 Casos de Uso:
 
-- Registrar
-- Ingresar
+- Registrar --> OK
+- Ingresar --> OK
 - Ingresar (OAuth)
-- Buscar usuario
-- Leer muro de un usuario
-- Seguir usuario
-- Publicar mensaje
-- Borrar mensaje
+- Buscar usuario --> OK (por alias)
+- Seguir usuario --> OK
+- Publicar mensaje --> OK
+- Borrar mensaje --> OK
+- Leer muro de un usuario --> OK
 - Enviar mensaje privado
 - Ver tablón de anuncios 
 - Ver temas del momento
