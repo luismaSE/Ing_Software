@@ -9,6 +9,8 @@ from datetime import datetime
 import re
 
 class MensajesPrivado(Resource):
+
+    #! Enviar mensaje privado
     
     @jwt_required()
     def post(self):
@@ -19,10 +21,10 @@ class MensajesPrivado(Resource):
         fecha = datetime.now().strftime("%H:%M %d-%m-%Y")
         
         if mongo.db.users.find_one({"alias":destinatario}) is None:
-            return "Destinatario no existente.", 404
+            return "Destinatario no existente.", 409
         
         if destinatario == emisor:
-            return "No te podes autoenviar mensajes.", 403
+            return "No te podes autoenviar mensajes.", 409
             
         mongo.db.privatemessage.insert_one(
             {
@@ -35,7 +37,7 @@ class MensajesPrivado(Resource):
         
         return "Mensaje enviado desde {} a {}.".format(emisor, destinatario), 201
 
-    
+    #! Ver mensajes privados recibidos
     @jwt_required()
     def get(self):
         

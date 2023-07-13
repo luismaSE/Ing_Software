@@ -6,40 +6,42 @@ from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 from main.auth.decorators import admin_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from ..models import Usuario
+from main.mail.funcion import sendMail
 
 class Usuario(Resource):
+
+    #! Perfil de usuario
 
     def get(self, alias):
         user = mongo.db.users.find_one({'alias': alias})
         response = json_util.dumps(user)
         return Response(response, mimetype="application/json")
 
-    # Seguir o dejar de seguir
+    #! Seguir o dejar de seguir
     @jwt_required()
     def put(self, alias):
         
         
         seguido = mongo.db.users.find_one({"alias": alias})
         if seguido is None:
-            return "Usuario inexistente", 404
+            return "Usuario inexistente", 409
 
         claims = get_jwt()
         mi_alias = claims["alias"]
         mi_usuario = mongo.db.users.find_one({"alias": mi_alias}) 
         
         if mi_alias == alias:
-            return "No te podes autoseguir.", 404
+            return "No te podes autoseguir.", 409
 
         if mi_alias in seguido["seguidores"]:
             mongo.db.users.update_one({"alias": alias},{'$pull': {'seguidores': mi_alias}})
             mongo.db.users.update_one({"alias": mi_alias},{'$pull': {'seguidos': alias}})
-            return "Dejaste seguir a '{}'".format(alias), 201
+            return "Dejaste seguir a '{}'".format(alias), 200
 
         mongo.db.users.update_one({"alias": alias},{'$push': {'seguidores': mi_alias}})
         mongo.db.users.update_one({"alias": mi_alias}, {'$push': {'seguidos': alias}})
 
-        return "Comenzaste de seguir a '{}'".format(alias), 201
-
+        return "Comenzaste de seguir a '{}'".format(alias), 200
 
     # @app.route('/users/<id>', methods=['DELETE'])
     # def delete_user(id):
@@ -66,6 +68,8 @@ class Usuario(Resource):
         
 class Usuarios(Resource):
 
+    #! Obtener todos los usuarios
+
     def get(self):
         users = mongo.db.users.find()
         response = json_util.dumps(users)
@@ -74,7 +78,18 @@ class Usuarios(Resource):
 
 class UsuariosEncontrados(Resource):
 
+    #! Lista de usuarios
+
     def get(self, alias):
         user = mongo.db.users.find({'alias': {'$regex': alias, '$options': 'i'}})
         response = json_util.dumps(user)
         return Response(response, mimetype="application/json")
+
+
+class Admin(Resource):
+
+    @admin_required
+    def get(self,dias):
+
+        sendMail("tinchoreyes123@gmail.com", "Temas")
+

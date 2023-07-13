@@ -16,10 +16,21 @@ Casos de Uso:
 - Borrar mensaje --> OK
 - Leer muro de un usuario --> OK
 - Ver tablón de anuncios --> OK
-- Ver temas del momento 
 - Enviar mensaje privado --> OK
 
+- Ver temas del momento 
 
+    juntar todas las etiquetas de los ultimos n dias
+    contar veces que se repite c/u
+    el admin puede cambiar a n
+    mostrar mensajes que contengan la etiqueta mas repetida en los n dias
+
+
+# - Republicar mensaje 
+- Cerrar sesion --> En el frontend (?)
+- Ver mi perfil --> En el frontend (?)
+- Modificar mensaje --> OK
+- Admin definir dias para temas del momento.
 
 Extra: 
 - Dejar de seguir usuario --> OK
