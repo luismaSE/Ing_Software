@@ -6,7 +6,6 @@ from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 from main.auth.decorators import admin_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from ..models import Usuario
-from main.mail.funcion import sendMail
 
 class Usuario(Resource):
 
@@ -20,7 +19,6 @@ class Usuario(Resource):
     #! Seguir o dejar de seguir
     @jwt_required()
     def put(self, alias):
-        
         
         seguido = mongo.db.users.find_one({"alias": alias})
         if seguido is None:
@@ -85,11 +83,4 @@ class UsuariosEncontrados(Resource):
         response = json_util.dumps(user)
         return Response(response, mimetype="application/json")
 
-
-class Admin(Resource):
-
-    @admin_required
-    def get(self,dias):
-
-        sendMail("tinchoreyes123@gmail.com", "Temas")
 

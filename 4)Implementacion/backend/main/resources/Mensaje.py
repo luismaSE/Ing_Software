@@ -7,7 +7,7 @@ from main.auth.decorators import admin_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 import re
-import os
+from main.mail.funcion import sendMail
 
 
 class Mensajes(Resource):
@@ -21,12 +21,14 @@ class Mensajes(Resource):
         if len(texto) > 140:
             return "El texto no puede tener mas de 140 caracteres.", 409 
 
-        hashtags = re.findall(r'#(\w+)', texto)
-        menciones = re.findall(r'@(\w+)', texto)
+        hashtags = list(set(re.findall(r'#(\w+)', texto)))
+        menciones = list(set(re.findall(r'@(\w+)', texto)))
+        
         claims = get_jwt()
         autor = claims["alias"]
         fecha = datetime.now()
 
+        #Buscar si la mencion existe
         for mencion in menciones:
             alias2 = mongo.db.users.find_one({"alias": mencion})
 
@@ -99,13 +101,13 @@ class Mensaje(Resource):
         claims = get_jwt()
         autor = claims["alias"]
         texto = request.json['texto'] + " (Editado)"
+        fecha = datetime.now()
 
         if len(texto) > 140:
             return "El texto no puede tener mas de 140 caracteres.", 409 
 
-        hashtags = re.findall(r'#(\w+)', texto)
-        menciones = re.findall(r'@(\w+)', texto)
-        fecha = datetime.now()
+        hashtags = list(set(re.findall(r'#(\w+)', texto)))
+        menciones = list(set(re.findall(r'@(\w+)', texto)))
     
         for mencion in menciones:
             alias2 = mongo.db.users.find_one({"alias": mencion})
@@ -147,6 +149,80 @@ class MensajesAutor(Resource):
         return Response(response, mimetype="application/json")
 
 
+class Dias(Resource):
+    def get(self):
+        try:
+            with open('dias.txt', 'r') as file:
+                dias = int(file.read())
+        except FileNotFoundError:
+            dias = 7
+            with open('dias.txt', 'w') as file:
+                file.write(str(dias))
+               
+        return dias
+
+    @admin_required
+    def put(self):
+        
+    
+#     @admin_required
+#     def put(self, dias):
+
+#         if not dias.isdigit():
+
+#             return "{} no es un número.".format(dias), 409
+
+        pass
+
+
+class MensajesTendencia(Resource):
+    
+    @staticmethod
+    #! Mensajes de hashtag en tendencia.
+    def get():
+        
+        dias = 7
+        
+        from datetime import datetime, timedelta
+        hoy = datetime.now()
+        desde = hoy - timedelta(days=dias)
+        
+        pipeline = [
+            {"$match": {"fecha": {"$gte": desde, "$lte": hoy}}},
+            {"$unwind": "$hashtags"},
+            {"$group": {"_id": "$hashtags", "count": {"$sum": 1}}},
+            {"$sort": {"count": -1}},
+            {"$limit": 3} 
+        ]
+        
+        result = list(mongo.db.messages.aggregate(pipeline))
 
         
+        # Obtener el elemento más repetido
+        etiquetas = {}
+        if len(result) > 0:
+            for hashtag in result:
+                etiquetas[hashtag['_id']] = hashtag['count']
+            return etiquetas, 209
         
+        else:
+            return "No se encontraron elementos en el campo 'hashtags'.", 409
+
+        # # Para tener los mensajes de un hashtag
+        # pipeline_mensajes = [
+        #     {
+        #         "$match": {"fecha": {"$gte": desde, "$lte": hoy}, 
+        #         "hashtags": hashtag_mas_repetido}
+        #     }
+        # ]
+
+        # # Ejecutar la consulta para obtener los mensajes con el hashtag más repetido
+        # result_mensajes = list(mongo.db.messages.aggregate(pipeline_mensajes))
+    
+        # response = json_util.dumps(result_mensajes)
+        
+        # return Response(response, mimetype="application/json")
+    
+
+
+
