@@ -1,18 +1,11 @@
-from flask import Flask, Response, jsonify, request, redirect, url_for , g
+from flask import Flask
 from flask_jwt_extended import JWTManager
 from flask_pymongo import PyMongo
 from flask_restful import Api
 from dotenv import load_dotenv
 from flask_mail import Mail
 import os
-from flask_login import (
-    LoginManager,
-    current_user,
-    login_required,
-    login_user,
-    logout_user,
-)
-from oauthlib.oauth2 import WebApplicationClient
+
 
 api = Api()
 
@@ -31,12 +24,9 @@ def create_app():
     app.config['JWT_ACCESS_TOKEN_EXPIRES'] = int(os.getenv("JWT_ACCESS_TOKEN_EXPIRES"))                                                        #
     app.config['MONGO_URI'] = os.getenv('DATABASE_CLIENT')
     
-    login_manager = LoginManager()
-    login_manager.init_app(app)
     mongo.init_app(app)
     jwt.init_app(app)
     
-    # client = WebApplicationClient(GOOGLE_CLIENT_ID)
 
     #! Para que siempre exista un admin
     admin = mongo.db.users.find_one({"admin": 1})    
@@ -89,8 +79,3 @@ def create_app():
     app.register_blueprint(routes.auth)
 
     return app
-
-
-#     @login_manager.user_loader
-# def load_user(user_id):
-#     return User.get(user_id)

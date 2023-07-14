@@ -1,5 +1,5 @@
 from .. import mailsender
-from flask import current_app, render_template
+from flask import current_app
 from flask_mail import Message
 from smtplib import SMTPException
 
@@ -17,6 +17,5 @@ def sendMail(to, subject, json_content):
         response = mailsender.send(msg)
         
     except SMTPException as e:
-        print(e)
-        return "Entrega de correo fallida"
+        return "Entrega de correo fallida", 400
     return True

@@ -1,18 +1,15 @@
 from flask_restful import Resource
-from flask import request, jsonify, session, Response
+from flask import Response
 from .. import mongo
 from bson import json_util
-from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
+from flask_jwt_extended import jwt_required, get_jwt
 from main.auth.decorators import admin_required
-from werkzeug.security import generate_password_hash, check_password_hash
-from ..models import Usuario
 
 class Usuario(Resource):
 
     #! Perfil de usuario
-
     def get(self, alias):
-        user = mongo.db.users.find_one({'alias': alias})
+        user = mongo.db.users.find_one({'alias': alias}, {'alias': 1, 'nombre': 1, 'descripcion': 1, 'foto': 1, 'seguidos': 1, 'seguidores': 1})
         response = json_util.dumps(user)
         return Response(response, mimetype="application/json")
 
@@ -41,33 +38,10 @@ class Usuario(Resource):
 
         return "Comenzaste de seguir a '{}'".format(alias), 200
 
-    # @app.route('/users/<id>', methods=['DELETE'])
-    # def delete_user(id):
-    #     mongo.db.users.delete_one({'_id': ObjectId(id)})
-    #     response = jsonify({'message': 'User' + id + ' Deleted Successfully'})
-    #     response.status_code = 200
-    #     return response
-
-
-    # @app.route('/users/<_id>', methods=['PUT'])
-    # def update_user(_id):
-    #     username = request.json['username']
-    #     email = request.json['email']
-    #     password = request.json['password']
-    #     if username and email and password and _id:
-    #         hashed_password = generate_password_hash(password)
-    #         mongo.db.users.update_one(
-    #             {'_id': ObjectId(_id['$oid']) if '$oid' in _id else ObjectId(_id)}, {'$set': {'username': username, 'email': email, 'password': hashed_password}})
-    #         response = jsonify({'message': 'User' + _id + 'Updated Successfuly'})
-    #         response.status_code = 200
-    #         return response
-    #     else:
-    #         return not_found()
-        
 class Usuarios(Resource):
-
+    
     #! Obtener todos los usuarios
-
+    @admin_required
     def get(self):
         users = mongo.db.users.find()
         response = json_util.dumps(users)
@@ -76,11 +50,8 @@ class Usuarios(Resource):
 
 class UsuariosEncontrados(Resource):
 
-    #! Lista de usuarios
-
-    def get(self, alias):
-        user = mongo.db.users.find({'alias': {'$regex': alias, '$options': 'i'}})
+    #! Lista de usuarios encontrados
+    def get(self, alias): 
+        user = mongo.db.users.find({'alias': {'$regex': alias, '$options': 'i'}}, {"alias":1, "_id": 0})
         response = json_util.dumps(user)
         return Response(response, mimetype="application/json")
-
-
