@@ -1,0 +1,65 @@
+{
+    "/usuarios": {
+        "target": "http://127.0.0.1:5000",
+        "secure": false,
+        "logLevel": "debug",
+        "pathRewrite": {
+            "^/usuarios": "/usuarios"
+        }
+    },
+    "/poemas": {
+        "target": "http://127.0.0.1:5000",
+        "secure": false,
+        "logLevel": "debug",
+        "pathRewrite": {
+            "^/poemas": "/poemas"
+        }
+    },
+    "/poema": {
+        "target": "http://127.0.0.1:5000",
+        "secure": false,
+        "logLevel": "debug",
+        "pathRewrite": {
+            "^/poema": "/poema"
+        }
+    },
+    "/poema-calificacion": {
+        "target": "http://127.0.0.1:5000",
+        "secure": false,
+        "logLevel": "debug",
+        "pathRewrite": {
+            "^/poema-calificacion": "/poema-calificacion"
+        }
+    },
+    "/usuario-poema": {
+        "target": "http://127.0.0.1:5000",
+        "secure": false,
+        "logLevel": "debug",
+        "pathRewrite": {
+            "^/usuario-poema": "/usuario-poema"
+        }
+    },
+    "/usuario": {
+        "target": "http://127.0.0.1:5000",
+        "secure": false,
+        "logLevel": "debug",
+        "pathRewrite": {
+            "^/usuario": "/usuario"
+        }
+    },
+
+
+    "/auth/*": {
+        "target": "http://127.0.0.1:5000",
+        "secure": false
+    },
+
+    "/calificaciones": {
+        "target": "http://127.0.0.1:5000",
+        "secure": false,
+        "logLevel": "debug",
+        "pathRewrite": {
+            "^/usuarios": "/calificaciones"
+        }
+    }
+}
