@@ -7,7 +7,7 @@ from .Mensaje import MensajesAutor as MensajesAutorResource
 from .Mensaje import Mensaje as MensajeResource
 from .Mensaje import Mensajes as MensajesResource
 from .Mensaje import Dias as DiasResource
-from .Mensaje import MensajesTendencia as MensajesTendenciaResource
+from .Mensaje import HashtagTendencia as HashtagTendenciaResource
 
 from .MensajePrivado import MensajesPrivado as MensajePrivadoResource
 

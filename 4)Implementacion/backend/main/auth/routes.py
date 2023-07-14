@@ -1,16 +1,13 @@
 from flask import request, jsonify, Blueprint
 from .. import mongo
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token
-from flask_login import LoginManager
-import wtforms
+from flask_jwt_extended import create_access_token
 
 auth = Blueprint('auth', __name__, url_prefix='/auth')
 
-
 @auth.route('/register', methods=['POST'])
 def register():
-    #! campos obligatorios
+    #! Campos obligatorios
     correo = request.json['correo']
     alias = request.json['alias']
     nombre = request.json['nombre']
@@ -20,7 +17,7 @@ def register():
     if len(alias) > 15:
         return "El alias no puede tener más de 15 caracteres.", 409
     
-    #! no obligatorio
+    #! Campos no obligatorios
     descripcion = request.json['descripcion']
     foto = request.json['foto']
     
@@ -70,6 +67,9 @@ def login():
     correo = request.json['correo']
     password = request.json['password']
     user = mongo.db.users.find_one({"correo": correo})
+    if user is None:
+        return "Usuario no encontrado", 404
+    
     password_hashed = user["password"]
     
     #! Contenido del JWT
@@ -80,17 +80,9 @@ def login():
             "alias": user["alias"]
             }
         access_token = create_access_token(identity=correo,additional_claims=additional_claims)
-        return jsonify(access_token=access_token),201
+        return jsonify(access_token=access_token), 200
     else:
-        return not_found()
-
-
-# @auth.route('/login_oauth', methods=['POST'])
-# def login_oauth():
-#     form = wtf
-#     if form.validate_on_submit():
-#         pass
-
+        return "Contraseña incorrecta", 401
 
 @auth.errorhandler(404)
 def not_found(error=None):

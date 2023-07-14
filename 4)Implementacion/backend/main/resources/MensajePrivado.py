@@ -1,17 +1,13 @@
 from flask_restful import Resource
-from flask import request, jsonify, session, Response
+from flask import request, Response
 from .. import mongo
 from bson import json_util
-from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
-from main.auth.decorators import admin_required
-from werkzeug.security import generate_password_hash, check_password_hash
+from flask_jwt_extended import jwt_required, get_jwt
 from datetime import datetime
-import re
 
 class MensajesPrivado(Resource):
 
-    #! Enviar mensaje privado
-    
+    #! Enviar mensaje privado    
     @jwt_required()
     def post(self):
         claims = get_jwt()
@@ -21,7 +17,7 @@ class MensajesPrivado(Resource):
         fecha = datetime.now().strftime("%H:%M %d-%m-%Y")
         
         if mongo.db.users.find_one({"alias":destinatario}) is None:
-            return "Destinatario no existente.", 409
+            return "Destinatario no existente.", 404
         
         if destinatario == emisor:
             return "No te podes autoenviar mensajes.", 409
@@ -35,9 +31,10 @@ class MensajesPrivado(Resource):
             }
         )
         
-        return "Mensaje enviado desde {} a {}.".format(emisor, destinatario), 201
+        return "Mensaje enviado de {} a {}.".format(emisor, destinatario), 201
 
-    #! Ver mensajes privados recibidos
+    #! Ver mensajes privados
+    #TODO ordenar mensajes y agruparlos por pares de personas
     @jwt_required()
     def get(self):
         
@@ -48,4 +45,4 @@ class MensajesPrivado(Resource):
         mensajes_enviados = mongo.db.privatemessage.find({"emisor": alias}).sort([("emisor", 1), ("fecha", -1)])
         
         response = json_util.dumps({"enviados": mensajes_enviados, "recibidos": mensajes_recibidos})
-        return Response(response, mimetype="application/json")
+        return Response(response, mimetype="application/json"), 200
