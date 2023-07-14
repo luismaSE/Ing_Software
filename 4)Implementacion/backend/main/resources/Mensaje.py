@@ -163,16 +163,17 @@ class Dias(Resource):
 
     @admin_required
     def put(self):
-        
+        dias = request.json['dias']
+        try:
+            with open('dias.txt', 'w') as file:
+                file.write(str(dias))
+                return "Cantidad de dias modificado.", 200
+        except FileNotFoundError:
+                return "No se pudo modificar.", 409
+                
+
+            
     
-#     @admin_required
-#     def put(self, dias):
-
-#         if not dias.isdigit():
-
-#             return "{} no es un número.".format(dias), 409
-
-        pass
 
 
 class MensajesTendencia(Resource):
