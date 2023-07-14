@@ -55,8 +55,7 @@ class Mensajes(Resource):
                 }
             )
         response.status_code = 201
-        
-        
+
         return response
 
     #! Ver tablon de anuncios
@@ -136,7 +135,6 @@ class Mensaje(Resource):
         )
 
         return "Mensaje modificado.", 200
-    
 
 
 class MensajesAutor(Resource):
@@ -150,7 +148,8 @@ class MensajesAutor(Resource):
 
 
 class Dias(Resource):
-    def get(self):
+    @staticmethod
+    def get():
         try:
             with open('dias.txt', 'r') as file:
                 dias = int(file.read())
@@ -158,7 +157,7 @@ class Dias(Resource):
             dias = 7
             with open('dias.txt', 'w') as file:
                 file.write(str(dias))
-               
+        
         return dias
 
     @admin_required
@@ -170,19 +169,15 @@ class Dias(Resource):
                 return "Cantidad de dias modificado.", 200
         except FileNotFoundError:
                 return "No se pudo modificar.", 409
-                
-
-            
-    
 
 
-class MensajesTendencia(Resource):
+class HashtagTendencia(Resource):
     
     @staticmethod
     #! Mensajes de hashtag en tendencia.
     def get():
-        
-        dias = 7
+
+        dias = Dias.get()
         
         from datetime import datetime, timedelta
         hoy = datetime.now()
@@ -209,7 +204,7 @@ class MensajesTendencia(Resource):
         else:
             return "No se encontraron elementos en el campo 'hashtags'.", 409
 
-        # # Para tener los mensajes de un hashtag
+        # ! Para tener los mensajes de un hashtag
         # pipeline_mensajes = [
         #     {
         #         "$match": {"fecha": {"$gte": desde, "$lte": hoy}, 
@@ -223,7 +218,24 @@ class MensajesTendencia(Resource):
         # response = json_util.dumps(result_mensajes)
         
         # return Response(response, mimetype="application/json")
+
+    @admin_required
+    def post(self):
+        usuarios = mongo.db.users.find({}, {'correo': 1, 'alias': 1, 'nombre': 1})
+
+        temas = self.get()[0]
+
+        for usuario in usuarios:
+            email = usuario['correo']
+            alias = usuario['alias']
+            nombre = usuario['nombre']
+            
+            json_content = {
+                'alias': alias,
+                'nombre': nombre,
+                'temas': temas
+            }
     
+            sendMail(to=email, subject="Nuevos temas del momento", json_content=json_content)
 
-
-
+        return "Emails enviados", 200

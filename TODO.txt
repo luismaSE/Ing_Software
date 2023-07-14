@@ -18,7 +18,7 @@ Casos de Uso:
 - Ver tablón de anuncios --> OK
 - Enviar mensaje privado --> OK
 
-- Ver temas del momento 
+- Ver temas del momento --> OK
 
     juntar todas las etiquetas de los ultimos n dias
     contar veces que se repite c/u
