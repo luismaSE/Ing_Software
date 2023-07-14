@@ -177,7 +177,8 @@ class HashtagTendencia(Resource):
         
         from datetime import datetime, timedelta
         hoy = datetime.now()
-        desde = hoy - timedelta(days=dias)
+
+        desde = hoy - timedelta(days=dias[0])
         
         pipeline = [
             {"$match": {"fecha": {"$gte": desde, "$lte": hoy}}},

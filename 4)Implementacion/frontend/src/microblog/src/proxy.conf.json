@@ -1,65 +1,74 @@
 {
     "/usuarios": {
-        "target": "http://127.0.0.1:5000",
+        "target": "http://127.0.0.1:7500",
         "secure": false,
         "logLevel": "debug",
         "pathRewrite": {
             "^/usuarios": "/usuarios"
         }
     },
-    "/poemas": {
-        "target": "http://127.0.0.1:5000",
-        "secure": false,
-        "logLevel": "debug",
-        "pathRewrite": {
-            "^/poemas": "/poemas"
-        }
-    },
-    "/poema": {
-        "target": "http://127.0.0.1:5000",
-        "secure": false,
-        "logLevel": "debug",
-        "pathRewrite": {
-            "^/poema": "/poema"
-        }
-    },
-    "/poema-calificacion": {
-        "target": "http://127.0.0.1:5000",
-        "secure": false,
-        "logLevel": "debug",
-        "pathRewrite": {
-            "^/poema-calificacion": "/poema-calificacion"
-        }
-    },
-    "/usuario-poema": {
-        "target": "http://127.0.0.1:5000",
-        "secure": false,
-        "logLevel": "debug",
-        "pathRewrite": {
-            "^/usuario-poema": "/usuario-poema"
-        }
-    },
     "/usuario": {
-        "target": "http://127.0.0.1:5000",
+        "target": "http://127.0.0.1:7500",
         "secure": false,
         "logLevel": "debug",
         "pathRewrite": {
-            "^/usuario": "/usuario"
+            "^/poemas": "/usuario"
         }
     },
-
+    "/usuariosencontrados": {
+        "target": "http://127.0.0.1:7500",
+        "secure": false,
+        "logLevel": "debug",
+        "pathRewrite": {
+            "^/poema": "/usuariosencontrados"
+        }
+    },
+    "/mensajes": {
+        "target": "http://127.0.0.1:7500",
+        "secure": false,
+        "logLevel": "debug",
+        "pathRewrite": {
+            "^/poema-calificacion": "/mensajes"
+        }
+    },
+    "/mensaje": {
+        "target": "http://127.0.0.1:7500",
+        "secure": false,
+        "logLevel": "debug",
+        "pathRewrite": {
+            "^/usuario-poema": "/mensaje"
+        }
+    },
 
     "/auth/*": {
-        "target": "http://127.0.0.1:5000",
+        "target": "http://127.0.0.1:7500",
         "secure": false
     },
 
-    "/calificaciones": {
-        "target": "http://127.0.0.1:5000",
+    "/dias": {
+        "target": "http://127.0.0.1:7500",
         "secure": false,
         "logLevel": "debug",
         "pathRewrite": {
-            "^/usuarios": "/calificaciones"
+            "^/usuario-poema": "/dias"
+        }
+    },
+
+    "/mensajeprivado": {
+        "target": "http://127.0.0.1:7500",
+        "secure": false,
+        "logLevel": "debug",
+        "pathRewrite": {
+            "^/usuario-poema": "/mensajeprivado"
+        }
+    },
+
+    "/hashtagtendencia": {
+        "target": "http://127.0.0.1:7500",
+        "secure": false,
+        "logLevel": "debug",
+        "pathRewrite": {
+            "^/usuario-poema": "/hashtagtendencia"
         }
     }
 }

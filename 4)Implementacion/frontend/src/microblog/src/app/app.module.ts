@@ -3,24 +3,50 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+
+// paginas
 import { HomeComponent } from './pages/home/home.component';
-import { MensajesPrivadosComponent } from './pages/mensajes-privados/mensajes-privados.component';
+
+
+
+// componentes
 import { HeaderComponent } from './components/header/header.component';
+import { BienvenidaComponent } from './components/bienvenida/bienvenida.component';
+import { DatosUsuarioComponent } from './components/datos-usuario/datos-usuario.component';
+import { LoginComponent } from './components/login/login.component';
+import { MensajeComponent } from './components/mensaje/mensaje.component';
+import { MensajeInputComponent } from './components/mensaje-input/mensaje-input.component';
+import { RegistrarComponent } from './components/registrar/registrar.component';
+import { TendenciasComponent } from './components/tendencias/tendencias.component';
+
+
+import { MensajePrivadoComponent } from './components/mensaje-privado/mensaje-privado.component';
+import { MensajesPrivadosComponent } from './pages/mensajes-privados/mensajes-privados.component';
+
+
+// duda
 import { MuroComponent } from './components/muro/muro.component';
 import { MuroUsuarioComponent } from './components/muro-usuario/muro-usuario.component';
-import { MensajePrivadoComponent } from './components/mensaje-privado/mensaje-privado.component';
-import { TendenciasComponent } from './components/tendencias/tendencias.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    MensajesPrivadosComponent,
     HeaderComponent,
-    MuroComponent,
-    MuroUsuarioComponent,
+    BienvenidaComponent,
+    DatosUsuarioComponent,
+    LoginComponent,
+    MensajeComponent,
+    MensajeInputComponent,
+    RegistrarComponent,
+    TendenciasComponent,
+
+    MensajesPrivadosComponent,
     MensajePrivadoComponent,
-    TendenciasComponent
+
+    MuroComponent,
+    MuroUsuarioComponent
   ],
   imports: [
     BrowserModule,
