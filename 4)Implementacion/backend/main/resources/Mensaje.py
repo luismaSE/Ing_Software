@@ -72,7 +72,8 @@ class Mensajes(Resource):
 
         response = json_util.dumps(mensajes)
         
-        return Response(response, mimetype="application/json"), 200
+        return Response(response, mimetype="application/json")
+
 
 class Mensaje(Resource):
     #! Borrar mensaje

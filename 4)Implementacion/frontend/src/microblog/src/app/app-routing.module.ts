@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { MensajesPrivadosComponent } from './pages/mensajes-privados/mensajes-privados.component';
 import { MuroUsuarioComponent } from './pages/muro-usuario/muro-usuario.component';
-import { TendenciasComponent } from './components/tendencias/tendencias.component';
+import { TendenciasComponent } from './pages/tendencias/tendencias.component';
 
 
 const routes: Routes = [

@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from './../../services/post.service'
 import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-mensaje',
@@ -8,17 +8,14 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./mensaje.component.css']
 })
 export class MensajeComponent implements OnInit {
-  datos_usuario:any;
+
+  @Input() mensaje:any;
 
   constructor(
     private usuarioService: UsuarioService
     ) {}
 
     ngOnInit(): void{
-      this.usuarioService.getUsuario("pepe").subscribe(data=>{
-        console.log(data)
-        this.datos_usuario = data;
-      }, error=>console.log(error));
     }
     
 }

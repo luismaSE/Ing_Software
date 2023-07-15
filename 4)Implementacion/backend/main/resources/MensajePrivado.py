@@ -45,4 +45,4 @@ class MensajesPrivado(Resource):
         mensajes_enviados = mongo.db.privatemessage.find({"emisor": alias}).sort([("emisor", 1), ("fecha", -1)])
         
         response = json_util.dumps({"enviados": mensajes_enviados, "recibidos": mensajes_recibidos})
-        return Response(response, mimetype="application/json"), 200
+        return Response(response, mimetype="application/json")

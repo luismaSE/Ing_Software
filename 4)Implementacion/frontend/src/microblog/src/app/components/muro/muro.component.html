@@ -4,18 +4,16 @@
         </div>
         <div class="col-9">
 
-            <!-- <app-mensaje-input></app-mensaje-input> -->
-            <app-bienvenida></app-bienvenida>
-                
-
-
+            <app-mensaje-input></app-mensaje-input>
+            <!-- !Cartelito de log -->
+            <!-- <app-bienvenida></app-bienvenida> -->
+            
             <hr class="hr" style="border-top: 1px solid rgb(255, 255, 255);" />
 
-            <app-mensaje></app-mensaje>
-            <app-mensaje></app-mensaje>
-            <app-mensaje></app-mensaje>
-            <app-mensaje></app-mensaje>
-    
+            <div  *ngFor="let mensaje of arrayMensajes">
+                <app-mensaje [mensaje] = "mensaje"></app-mensaje>
+            </div>
+
         </div>
         <div class="col">
         </div>

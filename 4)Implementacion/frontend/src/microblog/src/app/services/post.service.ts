@@ -6,7 +6,6 @@ import { identifierName } from '@angular/compiler';
   providedIn: 'root'
 })
 
-
 //! Rutas del backend
 // api.add_resource(resources.UsuarioResource, '/usuario/<alias>')     #Get, put
 
@@ -60,15 +59,18 @@ export class UsuariosEncontradosService {
 
 // api.add_resource(resources.MensajesResource, "/mensajes")    #Post, get
 
+@Injectable({
+  providedIn: 'root'
+})
 
 export class MensajesService {
-  url = "mensajes"
+  url = "http://localhost:7500/mensajes"
 
   constructor(
     private httpClient: HttpClient
   ) { }
 
-  postMensajes(data: any, token: string) {
+  postMensajes(data: any, token: any) {
     let heads = new HttpHeaders().set('Content-Type', 'application/json').set('Access-Control-Allow-Origin', '*').set('Authorization', 'Bearer ' + token)
     return this.httpClient.post(this.url, data, {headers: heads})
   }

@@ -77,7 +77,9 @@ def login():
         additional_claims = {
             "admin":user["admin"], 
             "correo": user["correo"], 
-            "alias": user["alias"]
+            "alias": user["alias"],
+            "descripcion": user["descripcion"],
+            "foto": user["foto"],
             }
         access_token = create_access_token(identity=correo,additional_claims=additional_claims)
         return jsonify(access_token=access_token), 200
