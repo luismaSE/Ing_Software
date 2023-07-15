@@ -4,6 +4,7 @@ from flask_pymongo import PyMongo
 from flask_restful import Api
 from dotenv import load_dotenv
 from flask_mail import Mail
+from flask_cors import CORS
 import os
 
 
@@ -18,6 +19,7 @@ mailsender = Mail()
 def create_app():
     
     app = Flask(__name__)
+    CORS(app)
     load_dotenv()
 
     app.secret_key = os.getenv('SECRET_KEY')   #TODO << generar con  python -c 'import secrets; print(secrets.token_hex())' en la consola

@@ -1,5 +1,5 @@
 from flask_restful import Resource
-from flask import Response
+from flask import Response, jsonify
 from .. import mongo
 from bson import json_util
 from flask_jwt_extended import jwt_required, get_jwt

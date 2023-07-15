@@ -27,6 +27,8 @@ import { MensajesPrivadosComponent } from './pages/mensajes-privados/mensajes-pr
 // duda
 import { MuroComponent } from './components/muro/muro.component';
 import { MuroUsuarioComponent } from './components/muro-usuario/muro-usuario.component';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -50,7 +52,10 @@ import { MuroUsuarioComponent } from './components/muro-usuario/muro-usuario.com
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

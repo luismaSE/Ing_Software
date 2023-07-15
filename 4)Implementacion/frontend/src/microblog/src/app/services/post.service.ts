@@ -11,7 +11,7 @@ import { identifierName } from '@angular/compiler';
 // api.add_resource(resources.UsuarioResource, '/usuario/<alias>')     #Get, put
 
 export class UsuarioService {
-  url = "usuario"
+  private url = "http://127.0.0.1:7500/usuario"
 
   constructor(
     private httpClient: HttpClient
