@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 
 // paginas
 import { HomeComponent } from './pages/home/home.component';
+import { TendenciasComponent } from './pages/tendencias/tendencias.component';
 
 
 
@@ -17,7 +18,7 @@ import { LoginComponent } from './components/login/login.component';
 import { MensajeComponent } from './components/mensaje/mensaje.component';
 import { MensajeInputComponent } from './components/mensaje-input/mensaje-input.component';
 import { RegistrarComponent } from './components/registrar/registrar.component';
-import { TendenciasComponent } from './components/tendencias/tendencias.component';
+
 
 
 import { MensajePrivadoComponent } from './components/mensaje-privado/mensaje-privado.component';
@@ -29,6 +30,7 @@ import { MuroComponent } from './components/muro/muro.component';
 import { MuroUsuarioComponent } from './components/muro-usuario/muro-usuario.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TrendingComponent } from './components/trending/trending.component';
 
 
 @NgModule({
@@ -48,7 +50,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MensajePrivadoComponent,
 
     MuroComponent,
-    MuroUsuarioComponent
+    MuroUsuarioComponent,
+    TrendingComponent
   ],
   imports: [
     BrowserModule,

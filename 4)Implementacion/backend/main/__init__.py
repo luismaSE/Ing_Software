@@ -61,7 +61,9 @@ def create_app():
     api.add_resource(resources.DiasResource, "/dias")
     api.add_resource(resources.HashtagTendenciaResource, "/hashtagtendencia")
 
-    api.add_resource(resources.MensajePrivadoResource, "/mensajeprivado")   #Get, post
+    api.add_resource(resources.MensajePrivadoResource, "/mensajeprivado")   #Post
+    api.add_resource(resources.MensajesPrivadosContactoResource, "/mensajesprivadoscontacto/<contacto>") #Get
+    api.add_resource(resources.ContactosResource, "/contactos")   #Get
 
     app.config['MAIL_HOSTNAME'] = os.getenv('MAIL_HOSTNAME')
     app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')

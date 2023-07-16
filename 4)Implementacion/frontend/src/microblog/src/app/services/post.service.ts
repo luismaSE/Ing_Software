@@ -167,11 +167,6 @@ export class MensajePrivadoService {
     private httpClient: HttpClient
   ) { }
 
-  getMensajePrivado(token: string) {
-    let heads = new HttpHeaders().set('Content-Type', 'application/json').set('Access-Control-Allow-Origin', '*').set('Authorization', 'Bearer ' + token)
-    return this.httpClient.get(this.url, {headers: heads});
-  }
-
   postMensajePrivado(data: any, token: string) {
     let heads = new HttpHeaders().set('Content-Type', 'application/json').set('Access-Control-Allow-Origin', '*').set('Authorization', 'Bearer ' + token)
     return this.httpClient.post(this.url, data, {headers: heads})
@@ -179,6 +174,8 @@ export class MensajePrivadoService {
 
 }
 
+
+// TODO Servicios: Mensajes privados, Contacto
 
 
 
