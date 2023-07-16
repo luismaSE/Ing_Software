@@ -22,7 +22,7 @@ export class MuroComponent implements OnInit {
 
   ngOnInit(): void {
     
-    localStorage.setItem('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY4OTQ1NzU4OSwianRpIjoiYjE1ZTk3MzYtYzhkNC00Y2IyLWIzN2UtODc1ZTY3NjhhYTAxIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6InBlcGVAZ21haWwuY29tIiwibmJmIjoxNjg5NDU3NTg5LCJleHAiOjE2ODk0NzI4MjksImFkbWluIjowLCJjb3JyZW8iOiJwZXBlQGdtYWlsLmNvbSIsImFsaWFzIjoicGVwZSIsImRlc2NyaXBjaW9uIjoiIiwiZm90byI6IiJ9.4pIibBBeuMXoIR5kO4_r1XdmhrUf_8P__Pb3jLnz9lQ")
+    localStorage.setItem('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY4OTUzNTE1MiwianRpIjoiNTEwMjFkYTktZjc5ZS00ZmEyLTgxY2MtNmRhZTcyNWU0NDM5IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6InBlcGVAZ21haWwuY29tIiwibmJmIjoxNjg5NTM1MTUyLCJleHAiOjE2ODk1NTAzOTIsImFkbWluIjowLCJjb3JyZW8iOiJwZXBlQGdtYWlsLmNvbSIsImFsaWFzIjoicGVwZSIsImRlc2NyaXBjaW9uIjoiIiwiZm90byI6IiJ9.KUUw-_vWpQ_f1mk_LlKqXj1C5FajVtT3sc6QNXJZQ5Y")
     this.token = localStorage.getItem("token") || undefined
     this.MensajesService.getMensajes(this.token).subscribe(
       (data:any) => {

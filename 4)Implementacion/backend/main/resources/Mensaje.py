@@ -190,7 +190,6 @@ class HashtagTendencia(Resource):
         ]
         
         result = list(mongo.db.messages.aggregate(pipeline))
-
         
         # Obtener el elemento más repetido
         etiquetas = {}

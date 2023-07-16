@@ -138,10 +138,12 @@ export class DiasService {
 
 
 // api.add_resource(resources.HashtagTendenciaResource, "/hashtagtendencia") #Get, #post
-
+@Injectable({
+  providedIn: 'root'
+})
 
 export class HashtagTendenciaService {
-  url = "hashtagtendencia"
+  url = "http://localhost:7500/hashtagtendencia"
 
   constructor(
     private httpClient: HttpClient
@@ -160,8 +162,12 @@ export class HashtagTendenciaService {
 
 // api.add_resource(resources.MensajePrivadoResource, "/mensajeprivado")   #Get, #post
 
+@Injectable({
+  providedIn: 'root'
+})
+
 export class MensajePrivadoService {
-  url = "mensajeprivado"
+  url = "http://localhost:7500/mensajeprivado"
 
   constructor(
     private httpClient: HttpClient
@@ -174,8 +180,45 @@ export class MensajePrivadoService {
 
 }
 
+// TODO Servicios: Mensajes privados, Contacto OK
+// api.add_resource(resources.MensajesPrivadosContactoResource, "/mensajesprivadoscontacto/<contacto>") #Get
 
-// TODO Servicios: Mensajes privados, Contacto
+@Injectable({
+  providedIn: 'root'
+})
+
+export class MensajesPrivadosContactoService {
+  url = "http://localhost:7500/mensajesprivadoscontacto"
+
+  constructor(
+    private httpClient: HttpClient
+  ) { }
+
+  getMensajes(contacto: string, token: string) {
+    let heads = new HttpHeaders().set('Content-Type', 'application/json').set('Access-Control-Allow-Origin', '*').set('Authorization', 'Bearer ' + token)
+    return this.httpClient.get(this.url + "/" + contacto, {headers: heads});
+  }
+
+}
+// api.add_resource(resources.ContactosResource, "/contactos")   #Get
+
+@Injectable({
+  providedIn: 'root'
+})
+
+export class ContactosService {
+  url = "http://localhost:7500/contactos"
+
+  constructor(
+    private httpClient: HttpClient
+  ) { }
+
+  getContactos(token: string) {
+    let heads = new HttpHeaders().set('Content-Type', 'application/json').set('Access-Control-Allow-Origin', '*').set('Authorization', 'Bearer ' + token)
+    return this.httpClient.get(this.url, {headers: heads});
+  }
+
+}
 
 
 

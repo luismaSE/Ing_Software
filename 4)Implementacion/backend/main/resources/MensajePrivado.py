@@ -55,6 +55,8 @@ class Contactos(Resource):
 
         nombres = [d.get("emisor") or d.get("destinatario") for d in lista]
 
+        #TODO agregar fotos
+
         nombres = list(set(nombres))
 
         return {"contactos":nombres}, 200
