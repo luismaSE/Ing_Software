@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {HashtagTendenciaService} from './../../services/post.service'
+import {HashtagTendenciaService, MensajesTendenciaService} from './../../services/post.service'
 
 @Component({
   selector: 'app-trending',
@@ -8,23 +8,31 @@ import {HashtagTendenciaService} from './../../services/post.service'
 })
 export class TrendingComponent implements OnInit {
   arrayTendencias: any;
-  longitud: any;
-  arrayEjemplo: any;
+  arrayMensajes: any
   
 
   constructor(
-    private HashtagTendenciaService: HashtagTendenciaService
+    private HashtagTendenciaService: HashtagTendenciaService,
+    private MensajesTendenciaService: MensajesTendenciaService
     
   ) { }
 
   ngOnInit(): void {
+
     this.HashtagTendenciaService.getHashtagTendencia().subscribe(
       (data:any) => {
         console.log('JSON data: ', data);
         this.arrayTendencias = data;
-        this.arrayEjemplo = [{"hola":"hola"},{"chau":"chau"}];
       }
     )
+
+    this.MensajesTendenciaService.getMensajesTendencia().subscribe(
+      (data:any) => {
+        console.log('JSON data: ', data);
+        this.arrayMensajes = data;
+      }
+    )
+
   }
 
 }

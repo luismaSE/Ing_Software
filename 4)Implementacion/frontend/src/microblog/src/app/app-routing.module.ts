@@ -7,10 +7,10 @@ import { TendenciasComponent } from './pages/tendencias/tendencias.component';
 
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', component: TendenciasComponent },
+  { path: 'tablon', component: HomeComponent },
   { path: 'mp', component: MensajesPrivadosComponent },
   { path: 'muro/:alias', component: MuroUsuarioComponent },
-  { path: 'tendencias', component: TendenciasComponent },
 ];
 
 @NgModule({

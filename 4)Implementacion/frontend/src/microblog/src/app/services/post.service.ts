@@ -220,6 +220,21 @@ export class ContactosService {
 
 }
 
+// api.add_resource(resources.MensajesTendenciaResource, "/mensajestendencia")
 
+@Injectable({
+  providedIn: 'root'
+})
 
+export class MensajesTendenciaService {
+  url = "http://localhost:7500/mensajestendencia"
 
+  constructor(
+    private httpClient: HttpClient
+  ) { }
+
+  getMensajesTendencia() {
+    return this.httpClient.get(this.url);
+  }
+
+}

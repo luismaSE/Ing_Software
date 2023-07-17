@@ -7,6 +7,7 @@ from main.auth.decorators import admin_required
 from datetime import datetime
 import re
 from main.mail.funcion import sendMail
+from pymongo import DESCENDING
 
 
 class Mensajes(Resource):
@@ -191,30 +192,19 @@ class HashtagTendencia(Resource):
         
         result = list(mongo.db.messages.aggregate(pipeline))
         
-        # Obtener el elemento más repetido
-        etiquetas = {}
+        lista = []
         if len(result) > 0:
             for hashtag in result:
-                etiquetas[hashtag['_id']] = hashtag['count']
-            return etiquetas, 200
+                etiqueta = {}
+                
+                etiqueta["etiqueta"] = [hashtag['_id'],hashtag['count']]
+                lista.append(etiqueta)
+            
+            return lista, 200
         
         else:
             return "No se encontraron elementos en el campo 'hashtags'.", 404
 
-        # ! Para tener los mensajes de un hashtag
-        # pipeline_mensajes = [
-        #     {
-        #         "$match": {"fecha": {"$gte": desde, "$lte": hoy}, 
-        #         "hashtags": hashtag_mas_repetido}
-        #     }
-        # ]
-
-        # # Ejecutar la consulta para obtener los mensajes con el hashtag más repetido
-        # result_mensajes = list(mongo.db.messages.aggregate(pipeline_mensajes))
-    
-        # response = json_util.dumps(result_mensajes)
-        
-        # return Response(response, mimetype="application/json")
 
     @admin_required
     def post(self):
@@ -236,3 +226,31 @@ class HashtagTendencia(Resource):
             sendMail(to=email, subject="Nuevos temas del momento", json_content=json_content)
 
         return "Emails enviados", 200
+
+class MensajesTendencia(Resource):
+    
+    @staticmethod
+    #! Mensajes de hashtag en tendencia.
+    def get():
+
+        dias = Dias.get()
+        
+        from datetime import datetime, timedelta
+        hoy = datetime.now()
+
+        desde = hoy - timedelta(days=dias[0])
+
+
+        get = HashtagTendencia.get()[0]
+        tendencias = []
+
+        for x in get:
+            tendencias.append(x["etiqueta"][0])
+       
+        result_mensajes = mensajes_con_tendencias = mongo.db.messages.find({"hashtags": {"$in": tendencias}}).sort("fecha", -1)
+    
+        response = json_util.dumps(result_mensajes)
+        
+        return Response(response, mimetype="application/json")
+
+

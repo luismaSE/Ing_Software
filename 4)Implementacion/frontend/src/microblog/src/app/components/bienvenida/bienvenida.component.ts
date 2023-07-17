@@ -15,6 +15,7 @@ export class BienvenidaComponent implements OnInit {
 
   registrarForm: any;
   loginForm: any;
+  alias: any;
 
   constructor(
     private AuthService: AuthService,
@@ -22,9 +23,10 @@ export class BienvenidaComponent implements OnInit {
     private router: Router
   ) { }
 
+
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
-      email: ["asd@gmail.com", Validators.required],
+      email: ["pepe@gmail.com", Validators.required],
       contra: ["123", Validators.required],
     })
     this.registrarForm = this.formBuilder.group({
@@ -70,7 +72,8 @@ export class BienvenidaComponent implements OnInit {
       {
         next: (rta) => {
           localStorage.setItem('token', rta.access_token) ;
-          // this.router.navigate(["home"])
+          // this.alias = this.getDecodedAccessToken(rta.access_token).alias;
+          // this.router.navigate(["tablon/"+this.alias.toString()])
         }, 
         
         error: (error) =>{

@@ -30,7 +30,7 @@ export class MensajePrivadoComponent implements OnInit {
 
   ngOnInit(): void {
     
-    localStorage.setItem('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY4OTUzNTE1MiwianRpIjoiNTEwMjFkYTktZjc5ZS00ZmEyLTgxY2MtNmRhZTcyNWU0NDM5IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6InBlcGVAZ21haWwuY29tIiwibmJmIjoxNjg5NTM1MTUyLCJleHAiOjE2ODk1NTAzOTIsImFkbWluIjowLCJjb3JyZW8iOiJwZXBlQGdtYWlsLmNvbSIsImFsaWFzIjoicGVwZSIsImRlc2NyaXBjaW9uIjoiIiwiZm90byI6IiJ9.KUUw-_vWpQ_f1mk_LlKqXj1C5FajVtT3sc6QNXJZQ5Y")
+    localStorage.setItem('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY4OTU1MzMyNCwianRpIjoiN2FkM2NkNDYtZWM4Yi00YTYwLWI1YmYtNGZhOWYwNDY3MWUxIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6InBlcGVAZ21haWwuY29tIiwibmJmIjoxNjg5NTUzMzI0LCJleHAiOjE2ODk1Njg1NjQsImFkbWluIjowLCJjb3JyZW8iOiJwZXBlQGdtYWlsLmNvbSIsImFsaWFzIjoicGVwZSIsImRlc2NyaXBjaW9uIjoiIiwiZm90byI6IiJ9.qC92g-OTG4y63LbLm9y38JgeJT6Ipf_mhxLs8jn48mw")
     this.token = localStorage.getItem("token") || undefined
     this.ContactosService.getContactos(this.token).subscribe(
       (data:any) => {
@@ -85,7 +85,7 @@ export class MensajePrivadoComponent implements OnInit {
     if(this.mensajeForm.valid) {
       this.MensajePrivado.postMensajePrivado({texto:this.mensajeForm.value.texto, destinatario:destinatario},this.token).subscribe()
     }
-    alert("Mensaje subido")
+    alert("Mensaje enviado")
     this.mensajeForm = this.formBuilder.group(
       {
         texto: ["", Validators.required],

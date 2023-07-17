@@ -60,6 +60,8 @@ def create_app():
     api.add_resource(resources.MensajesAutorResource, "/mensajes/<autor>")  #Get
     api.add_resource(resources.DiasResource, "/dias")
     api.add_resource(resources.HashtagTendenciaResource, "/hashtagtendencia")
+    api.add_resource(resources.MensajesTendenciaResource, "/mensajestendencia")
+
 
     api.add_resource(resources.MensajePrivadoResource, "/mensajeprivado")   #Post
     api.add_resource(resources.MensajesPrivadosContactoResource, "/mensajesprivadoscontacto/<contacto>") #Get
