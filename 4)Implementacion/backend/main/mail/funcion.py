@@ -8,9 +8,9 @@ def sendMail(to, subject, json_content):
     try:
         alias = json_content["alias"]
 
-        tema_0 = list(json_content["temas"].keys())[0]
-        tema_1 = list(json_content["temas"].keys())[1]
-        tema_2 = list(json_content["temas"].keys())[2]
+        tema_0 = list(json_content["temas"])[0]
+        tema_1 = list(json_content["temas"])[1]
+        tema_2 = list(json_content["temas"])[2]
 
         msg.body = f"Hola {alias} ! \nHay nuevos temas del momento:\n 1º {tema_0} \n 2º {tema_1}\n 3° {tema_2} \n¡Saludos! Microblog Team"
 

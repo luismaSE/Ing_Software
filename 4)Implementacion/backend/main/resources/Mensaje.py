@@ -193,24 +193,23 @@ class HashtagTendencia(Resource):
         result = list(mongo.db.messages.aggregate(pipeline))
         
         lista = []
-        if len(result) > 0:
-            for hashtag in result:
-                etiqueta = {}
-                
-                etiqueta["etiqueta"] = [hashtag['_id'],hashtag['count']]
-                lista.append(etiqueta)
+        for hashtag in result:
+            etiqueta = {}
             
-            return lista, 200
+            etiqueta["etiqueta"] = [hashtag['_id'],hashtag['count']]
+            lista.append(etiqueta)
         
-        else:
-            return "No se encontraron elementos en el campo 'hashtags'.", 404
+        return lista, 200
+        
 
-
+    #! Enviar email de tendencias.
     @admin_required
     def post(self):
         usuarios = mongo.db.users.find({}, {'correo': 1, 'alias': 1, 'nombre': 1})
 
         temas = self.get()[0]
+
+        temas =[item["etiqueta"][0] for item in temas]
 
         for usuario in usuarios:
             email = usuario['correo']
@@ -224,6 +223,7 @@ class HashtagTendencia(Resource):
             }
     
             sendMail(to=email, subject="Nuevos temas del momento", json_content=json_content)
+            print("Email enviado a", email)
 
         return "Emails enviados", 200
 

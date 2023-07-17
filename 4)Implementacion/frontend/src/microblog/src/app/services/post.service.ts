@@ -44,8 +44,12 @@ export class UsuariosService {
 
 // api.add_resource(resources.UsuariosEncontradosResource, "/usuariosencontrados/<alias>")     #Get
 
+@Injectable({
+  providedIn: 'root'
+})
+
 export class UsuariosEncontradosService {
-  url = "usuariosencontrados"
+  url = "http://127.0.0.1:7500/usuariosencontrados"
 
   constructor(
     private httpClient: HttpClient
@@ -118,8 +122,12 @@ export class MensajesAutorService {
 
 // api.add_resource(resources.DiasResource, "/dias") #Get, #put
 
+@Injectable({
+  providedIn: 'root'
+})
+
 export class DiasService {
-  url = "dias"
+  url = "http://127.0.0.1:7500/dias"
 
   constructor(
     private httpClient: HttpClient
@@ -129,7 +137,7 @@ export class DiasService {
     return this.httpClient.get(this.url);
   }
 
-  putDias(data: any, token:string) {
+  putDias(data: any, token:any) {
     let heads = new HttpHeaders().set('Content-Type', 'application/json').set('Access-Control-Allow-Origin', '*').set('Authorization', 'Bearer ' + token)
     return this.httpClient.put(this.url, data, {headers: heads});
   }
@@ -153,11 +161,10 @@ export class HashtagTendenciaService {
     return this.httpClient.get(this.url);
   }
 
-  postHashtagTendencia(token: string) {
+  postHashtagTendencia(token: any) {
     let heads = new HttpHeaders().set('Content-Type', 'application/json').set('Access-Control-Allow-Origin', '*').set('Authorization', 'Bearer ' + token)
-    return this.httpClient.post(this.url, {headers: heads})
+    return this.httpClient.post(this.url, {}, {headers: heads})
   }
-
 }
 
 // api.add_resource(resources.MensajePrivadoResource, "/mensajeprivado")   #Get, #post

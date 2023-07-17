@@ -30,7 +30,7 @@ export class MensajePrivadoComponent implements OnInit {
 
   ngOnInit(): void {
     
-    localStorage.setItem('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY4OTU1MzMyNCwianRpIjoiN2FkM2NkNDYtZWM4Yi00YTYwLWI1YmYtNGZhOWYwNDY3MWUxIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6InBlcGVAZ21haWwuY29tIiwibmJmIjoxNjg5NTUzMzI0LCJleHAiOjE2ODk1Njg1NjQsImFkbWluIjowLCJjb3JyZW8iOiJwZXBlQGdtYWlsLmNvbSIsImFsaWFzIjoicGVwZSIsImRlc2NyaXBjaW9uIjoiIiwiZm90byI6IiJ9.qC92g-OTG4y63LbLm9y38JgeJT6Ipf_mhxLs8jn48mw")
+    // localStorage.setItem('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY4OTU5OTg1MSwianRpIjoiYjgzOGE1MzktNzlmMS00ZDIzLWI2ZGQtNTc0OWRkMzNlMTQ1IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6InBlcGVAZ21haWwuY29tIiwibmJmIjoxNjg5NTk5ODUxLCJleHAiOjE2ODk2MTUwOTEsImFkbWluIjowLCJjb3JyZW8iOiJwZXBlQGdtYWlsLmNvbSIsImFsaWFzIjoicGVwZSIsImRlc2NyaXBjaW9uIjoiIiwiZm90byI6IiJ9.h74u7A1_Dem9POKW0oCeAvdZOhWdwkDyDJceswstLg4")
     this.token = localStorage.getItem("token") || undefined
     this.ContactosService.getContactos(this.token).subscribe(
       (data:any) => {

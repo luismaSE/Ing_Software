@@ -36,18 +36,8 @@
                     </div>
                 </form>
             </td>
-
-            <!-- <form [formGroup]="loginForm">
-
-                <h1 class="modal-title fs-5" id="loginModalLabel">Ingresa a tu cuenta</h1>
-                <input type="email" class="form-control" id="exampleInputEmail1" formControlName="email" aria-describedby="emailHelp" placeholder="Email">
-                <input type="password" class="form-control" id="exampleInputPassword1" formControlName="contra" placeholder="Contraseña">
-            </form>
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-success" (click)="submitlogin()">Login N</button> -->
             
             <td>
-
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerModal">
                     Registrarse
                 </button>
@@ -89,7 +79,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
-                                    <button type="submit" class="btn btn-success" (click)="submitregistrar()" >Registrarse</button>
+                                    <button type="submit" class="btn btn-success" data-bs-dismiss="modal" (click)="submitregistrar()" >Registrarse</button>
                                 </div>
                             </div>
                         </div>

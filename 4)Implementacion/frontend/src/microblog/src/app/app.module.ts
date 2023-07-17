@@ -51,7 +51,7 @@ import { TrendingComponent } from './components/trending/trending.component';
 
     MuroComponent,
     MuroUsuarioComponent,
-    TrendingComponent
+    TrendingComponent,
   ],
   imports: [
     BrowserModule,

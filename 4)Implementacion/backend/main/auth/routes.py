@@ -40,24 +40,15 @@ def register():
                 "admin": 0
                 }
             )
-            response = jsonify(
-                {
-                '_id': str(id),
-                'correo': correo,
-                "alias": alias,
-                "nombre": nombre, 
-                'password': hashed_password,
-                "descripcion": descripcion,
-                "foto": foto,
-                "seguidores": [],
-                "seguidos": [],
-                "admin": 0
-                }
-            )
+            
+            message = {
+                'message': "Usuario creado"
+            }
+            response = jsonify(message)
             response.status_code = 201
             return response
         else:
-            return not_found()
+            return "No ingresó correo o contraseña", 409
     else:
         return "Ya existe un usuario con ese email o alias.", 409
 

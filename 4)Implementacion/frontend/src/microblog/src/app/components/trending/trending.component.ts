@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {HashtagTendenciaService, MensajesTendenciaService} from './../../services/post.service'
+import {HashtagTendenciaService, MensajesTendenciaService, DiasService} from './../../services/post.service'
+import jwt_decode from 'jwt-decode';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-trending',
@@ -9,15 +11,21 @@ import {HashtagTendenciaService, MensajesTendenciaService} from './../../service
 export class TrendingComponent implements OnInit {
   arrayTendencias: any;
   arrayMensajes: any
+  dias: any
+  admin: any = 0;
+  diasForm: any
+  token: any = null;
   
 
   constructor(
     private HashtagTendenciaService: HashtagTendenciaService,
-    private MensajesTendenciaService: MensajesTendenciaService
-    
+    private MensajesTendenciaService: MensajesTendenciaService,
+    private DiasService: DiasService,
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit(): void {
+    this.token = localStorage.getItem("token")
 
     this.HashtagTendenciaService.getHashtagTendencia().subscribe(
       (data:any) => {
@@ -26,6 +34,17 @@ export class TrendingComponent implements OnInit {
       }
     )
 
+    this.DiasService.getDias().subscribe(
+      (data:any) => {
+        console.log('JSON data dias: ', data);
+        this.dias = data;
+      }
+    )
+    
+    if (this.token) {
+      this.admin = this.getDecodedAccessToken(this.token).admin
+    }
+
     this.MensajesTendenciaService.getMensajesTendencia().subscribe(
       (data:any) => {
         console.log('JSON data: ', data);
@@ -33,6 +52,25 @@ export class TrendingComponent implements OnInit {
       }
     )
 
+    this.diasForm = this.formBuilder.group({
+      dias: [this.dias, Validators.required],
+      }    
+    )
+
+  }
+  
+  submit() {
+    this.DiasService.putDias({"dias":this.diasForm.value.dias}, localStorage.getItem("token")).subscribe()
+    console.log(this.token)
+    this.HashtagTendenciaService.postHashtagTendencia(this.token).subscribe();
+  }
+
+  getDecodedAccessToken(token: any): any {
+    try {
+      return jwt_decode(token);
+    } catch(Error) {
+      return null;
+    }
   }
 
 }

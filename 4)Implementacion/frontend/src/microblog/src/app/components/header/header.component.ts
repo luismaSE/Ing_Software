@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { UsuariosEncontradosService } from './../../services/post.service'
 import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-header',
@@ -8,11 +11,59 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
   mostrarLista = false;
+  buscarForm: any;
+  alias: any
+  arrayUsuarios: any;
+  token: any = null;
+  
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private UsuariosEncontradosService: UsuariosEncontradosService
+
+  ) { }
 
   ngOnInit(): void {
+    this.token = localStorage.getItem("token")
+
+    this.buscarForm = this.formBuilder.group({
+      alias: ["", Validators.required],
+      }    
+    )
   }
 
+  submitBuscar() {
+    if(this.buscarForm.valid) {
+      this.alias = this.buscarForm.value.alias
+    }
+
+    this.UsuariosEncontradosService.getUsuario(this.alias).subscribe(
+      (data:any) => {
+        console.log('JSON data: ', data);
+        this.arrayUsuarios = data;
+        console.log("usuarios encontrados: ", data )
+      }
+    )
+  }
+
+  salir() {
+    localStorage.clear()
+    alert("Cerraste sesión")
+    this.router.navigate([""])
+  }
+
+  mensajePriv() {
+    this.router.navigate(["mp"])
+    
+  }
+
+  tablon() {
+    this.router.navigate(["tablon"])
+  }
+
+  trending() {
+    this.router.navigate([""])
+  }
 
 }

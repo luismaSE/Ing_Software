@@ -72,8 +72,7 @@ export class BienvenidaComponent implements OnInit {
       {
         next: (rta) => {
           localStorage.setItem('token', rta.access_token) ;
-          // this.alias = this.getDecodedAccessToken(rta.access_token).alias;
-          // this.router.navigate(["tablon/"+this.alias.toString()])
+          this.router.navigate(["tablon"])
         }, 
         
         error: (error) =>{
@@ -95,15 +94,13 @@ export class BienvenidaComponent implements OnInit {
     this.AuthService.register(dataLogin).subscribe(
       {
         next: (rta) => {
-          localStorage.setItem('token', rta.access_token) ;
-          // this.router.navigate(["home"])
+          alert('Usuario creado');
+          console.log('rta: ', rta);
         }, 
         
         error: (error) =>{
           alert('Credenciales incorrectas');
           console.log('Error: ', error);
-          localStorage.removeItem('token');
-    
         }, 
         
         complete: () => {

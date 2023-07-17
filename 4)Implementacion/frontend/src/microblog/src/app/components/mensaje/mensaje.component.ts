@@ -17,6 +17,6 @@ export class MensajeComponent implements OnInit {
 
     ngOnInit(): void{
     }
-    
+  
 }
 
