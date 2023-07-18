@@ -79,7 +79,7 @@ export class BienvenidaComponent implements OnInit {
         }, 
         
         error: (error) =>{
-          alert('Credenciales incorrectas');
+          alert(error.error);
           console.log('Error: ', error);
           localStorage.removeItem('token');
     
@@ -102,7 +102,7 @@ export class BienvenidaComponent implements OnInit {
         }, 
         
         error: (error) =>{
-          alert('Credenciales incorrectas');
+          alert(error.error);
           console.log('Error: ', error);
         }, 
         

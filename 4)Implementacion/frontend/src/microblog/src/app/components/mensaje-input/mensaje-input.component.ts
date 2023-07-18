@@ -33,9 +33,24 @@ export class MensajeInputComponent implements OnInit {
 
   submit() {
     if(this.mensajeForm.valid) {
-      this.MensajesService.postMensajes({texto:this.mensajeForm.value.texto},this.token).subscribe()
+      this.MensajesService.postMensajes({texto:this.mensajeForm.value.texto},this.token).subscribe(
+        {
+          next: (rta) => {
+            alert('Mensaje Publicado');
+            console.log('rta: ', rta);
+            window.location.reload();
+          }, 
+          
+          error: (error) =>{
+            alert(error.error);
+            console.log('Error: ', error);
+          }
+        }
+      )
+    
     }
-    alert("Mensaje subido")
+    
+    
     this.mensajeForm = this.formBuilder.group(
       {
         texto: ["", Validators.required],

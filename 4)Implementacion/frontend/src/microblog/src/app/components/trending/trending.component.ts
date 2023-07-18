@@ -60,8 +60,14 @@ export class TrendingComponent implements OnInit {
   }
   
   submit() {
-    this.DiasService.putDias({"dias":this.diasForm.value.dias}, localStorage.getItem("token")).subscribe()
-    console.log(this.token)
+    this.DiasService.putDias({"dias":this.diasForm.value.dias}, localStorage.getItem("token")).subscribe(
+      (response) => {
+        alert(response);
+        window.location.reload();
+      }
+    )
+
+
     this.HashtagTendenciaService.postHashtagTendencia(this.token).subscribe();
   }
 

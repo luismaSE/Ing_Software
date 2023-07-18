@@ -44,12 +44,25 @@ export class MensajeComponent implements OnInit {
     delete(id: any) {
       this.MensajeService.deleteMensaje(this.token, id).subscribe()
       alert("Mensaje eliminado ")
+      window.location.reload();
     }
 
     update(id: any) {
       console.log("<<" , this.modificarForm.value.texto)
-      this.MensajeService.putMensaje({texto:this.modificarForm.value.texto},this.token, id).subscribe()
-      alert("Mensaje editado")
+      this.MensajeService.putMensaje({texto:this.modificarForm.value.texto},this.token, id).subscribe(
+        {
+          next: (rta) => {
+            alert('Mensaje Modificado');
+            console.log('rta: ', rta);
+            window.location.reload();
+          }, 
+          
+          error: (error) =>{
+            alert(error.error);
+            console.log('Error: ', error);
+          }
+        }
+      )
     }
 
 }
