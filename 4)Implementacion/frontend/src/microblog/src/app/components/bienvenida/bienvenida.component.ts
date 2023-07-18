@@ -37,7 +37,7 @@ export class BienvenidaComponent implements OnInit {
       alias: ["Messirve", Validators.required],
       nombre: ["Messi", Validators.required],
       foto: [null],
-      descripcion: [""],
+      descripcion: ["Lionel Andrés Messi Cuccittini (Rosario, Argentina, 24 de junio de 1987), conocido como Leo Messi, es un futbolista argentino que juega como delantero en el Inter de Miami de la Major League Soccer de Estados Unidos. Es también internacional con la selección de Argentina, equipo del que es capitán."],
     })
   }
 
@@ -65,7 +65,6 @@ export class BienvenidaComponent implements OnInit {
           foto: this.registrarForm.value.foto
         }
       )
-      console.log(">>>>>>>>>>>>>>>>>>>>>>", this.registrarForm.value.foto);
     }
   }
 
@@ -86,7 +85,7 @@ export class BienvenidaComponent implements OnInit {
         }, 
         
         complete: () => {
-          console.log('Terminó el login');
+          console.log('Terminó el login.');
         }
       }
     )
@@ -97,7 +96,7 @@ export class BienvenidaComponent implements OnInit {
     this.AuthService.register(dataLogin).subscribe(
       {
         next: (rta) => {
-          alert('Usuario creado');
+          alert('Usuario creado.');
           console.log('rta: ', rta);
         }, 
         
@@ -107,7 +106,7 @@ export class BienvenidaComponent implements OnInit {
         }, 
         
         complete: () => {
-          console.log('Termino el registrado');
+          console.log('Termino el registrado.');
         }
       }
     )
@@ -119,9 +118,7 @@ export class BienvenidaComponent implements OnInit {
     if (file) {
       const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
       if (allowedTypes.includes(file.type)) {
-        console.log('Imagen seleccionada:', file);
 
-        
         let reader = new FileReader();
         reader.onloadend = () => {
 
@@ -130,7 +127,6 @@ export class BienvenidaComponent implements OnInit {
             foto: reader.result, // La foto en base64 (ya incluye la "data:image/png;base64," parte)
           });
         };
-
     
         reader.readAsDataURL(file);
 
@@ -139,7 +135,6 @@ export class BienvenidaComponent implements OnInit {
       }
     }
   }
-
 
   getDecodedAccessToken(token: string): any {
     try {

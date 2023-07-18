@@ -23,7 +23,6 @@ export class MensajeComponent implements OnInit {
     ) {}
 
     ngOnInit(): void{
-      console.log(this.mensaje["texto"])
       this.token = localStorage.getItem("token") || undefined 
       if (this.token) {
         this.alias = this.getDecodedAccessToken(this.token).alias
@@ -43,12 +42,11 @@ export class MensajeComponent implements OnInit {
     
     delete(id: any) {
       this.MensajeService.deleteMensaje(this.token, id).subscribe()
-      alert("Mensaje eliminado ")
+      alert("Mensaje eliminado")
       window.location.reload();
     }
 
     update(id: any) {
-      console.log("<<" , this.modificarForm.value.texto)
       this.MensajeService.putMensaje({texto:this.modificarForm.value.texto},this.token, id).subscribe(
         {
           next: (rta) => {
@@ -64,6 +62,4 @@ export class MensajeComponent implements OnInit {
         }
       )
     }
-
 }
-

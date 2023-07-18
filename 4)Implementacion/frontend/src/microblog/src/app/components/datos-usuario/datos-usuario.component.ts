@@ -26,8 +26,6 @@ export class DatosUsuarioComponent implements OnInit {
     );
   }
 
-
-
   getDecodedAccessToken(token: any): any {
     try {
       return jwt_decode(token);
@@ -35,5 +33,4 @@ export class DatosUsuarioComponent implements OnInit {
       return null;
     }
   }
-
 }

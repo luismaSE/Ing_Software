@@ -183,19 +183,22 @@ class HashtagTendencia(Resource):
         hoy = datetime.now()
 
         desde = hoy - timedelta(days=dias[0])
-        
+
         pipeline = [
             {"$match": {"fecha": {"$gte": desde, "$lte": hoy}}},
             {"$unwind": "$hashtags"},
             {"$group": {"_id": "$hashtags", "count": {"$sum": 1}}},
-            {"$sort": {"count": -1}},
-            {"$limit": 3} 
+            {"$sort": {"count": -1}}
         ]
         
         result = list(mongo.db.messages.aggregate(pipeline))
-        
+
+        sorted_data = sorted(result, key=lambda x: (-x["count"], x["_id"]))
+
+        finales = sorted_data[:3]
+
         lista = []
-        for hashtag in result:
+        for hashtag in finales:
             etiqueta = {}
             
             etiqueta["etiqueta"] = [hashtag['_id'],hashtag['count']]
@@ -225,7 +228,6 @@ class HashtagTendencia(Resource):
             }
     
             sendMail(to=email, subject="Nuevos temas del momento", json_content=json_content)
-            print("Email enviado a", email)
 
         return "Emails enviados", 200
 

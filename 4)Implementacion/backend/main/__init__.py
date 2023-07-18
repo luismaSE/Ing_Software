@@ -22,8 +22,8 @@ def create_app():
     CORS(app)
     load_dotenv()
 
-    app.secret_key = os.getenv('SECRET_KEY')   #TODO << generar con  python -c 'import secrets; print(secrets.token_hex())' en la consola
-    app.config['JWT_ACCESS_TOKEN_EXPIRES'] = int(os.getenv("JWT_ACCESS_TOKEN_EXPIRES"))                                                        #
+    app.secret_key = os.getenv('SECRET_KEY')
+    app.config['JWT_ACCESS_TOKEN_EXPIRES'] = int(os.getenv("JWT_ACCESS_TOKEN_EXPIRES"))
     app.config['MONGO_URI'] = os.getenv('DATABASE_CLIENT')
     
     mongo.init_app(app)

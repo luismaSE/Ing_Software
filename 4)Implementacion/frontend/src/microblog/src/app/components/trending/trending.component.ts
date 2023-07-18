@@ -29,14 +29,12 @@ export class TrendingComponent implements OnInit {
 
     this.HashtagTendenciaService.getHashtagTendencia().subscribe(
       (data:any) => {
-        console.log('JSON data: ', data);
         this.arrayTendencias = data;
       }
     )
 
     this.DiasService.getDias().subscribe(
       (data:any) => {
-        console.log('JSON data dias: ', data);
         this.dias = data;
       }
     )
@@ -47,7 +45,6 @@ export class TrendingComponent implements OnInit {
 
     this.MensajesTendenciaService.getMensajesTendencia().subscribe(
       (data:any) => {
-        console.log('JSON data: ', data);
         this.arrayMensajes = data;
       }
     )
@@ -67,7 +64,6 @@ export class TrendingComponent implements OnInit {
       }
     )
 
-
     this.HashtagTendenciaService.postHashtagTendencia(this.token).subscribe();
   }
 
@@ -78,5 +74,4 @@ export class TrendingComponent implements OnInit {
       return null;
     }
   }
-
 }

@@ -9,19 +9,18 @@ import { Router } from '@angular/router';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
+
 export class HeaderComponent implements OnInit {
   mostrarLista = false;
   buscarForm: any;
   alias: any
   arrayUsuarios: any;
   token: any = null;
-  
 
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
     private UsuariosEncontradosService: UsuariosEncontradosService
-
   ) { }
 
   ngOnInit(): void {
@@ -40,9 +39,7 @@ export class HeaderComponent implements OnInit {
 
     this.UsuariosEncontradosService.getUsuario(this.alias).subscribe(
       (data:any) => {
-        console.log('JSON data: ', data);
         this.arrayUsuarios = data;
-        console.log("usuarios encontrados: ", data )
       }
     )
   }
@@ -50,7 +47,6 @@ export class HeaderComponent implements OnInit {
   salir() {
     localStorage.clear()
     alert("Cerraste sesión")
-    // this.router.navigate([""])
     window.location.replace('');
   }
 

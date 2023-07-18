@@ -30,29 +30,23 @@ export class PerfilUsuarioComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    
     this.token = localStorage.getItem("token") || undefined
-  
 
     if (this.token) {
       this.username = this.getDecodedAccessToken(this.token).alias
     }
 
     this.alias = this.route.snapshot.paramMap.get('alias');
-    console.log('Alias de pagina: ', this.alias);
     this.MensajesAutorService.getMensajes(this.alias, this.token).subscribe(
       (data:any) => {
-        console.log('JSON data: ', data);
         this.arrayMensajes = data;
       }
     )
 
     this.UsuarioService.getUsuario(this.alias).subscribe(
       (data:any) => {
-        console.log('JSON data: ', data);
         this.user = data;
-        console.log(this.user['seguidores'])
-        console.log(this.username)
+
 
         if (this.user['seguidores'].includes(this.username)) {
           this.seguido = true
@@ -61,7 +55,6 @@ export class PerfilUsuarioComponent implements OnInit {
       else {
         this.seguido = false
         }
-        console.log("seguido: ", this.seguido)
       }
     )
 
@@ -69,7 +62,6 @@ export class PerfilUsuarioComponent implements OnInit {
 
   submit() {
     this.token = localStorage.getItem("token")
-    console.log("token:", this.token)
     this.UsuarioService.putUsuario(this.alias, this.token).subscribe(
       (response) => {
         alert(response);
@@ -91,5 +83,4 @@ export class PerfilUsuarioComponent implements OnInit {
       return null;
     }
   }
-
 }

@@ -25,7 +25,6 @@ export class MuroComponent implements OnInit {
     this.token = localStorage.getItem("token") || undefined
     this.MensajesService.getMensajes(this.token).subscribe(
       (data:any) => {
-        console.log('JSON data: ', data);
         this.arrayMensajes = data;
       }
     )

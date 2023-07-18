@@ -19,7 +19,6 @@ export class MensajePrivadoComponent implements OnInit {
   mensajeForm: any;
   primero: any;
   contactoNuevo: any
- 
 
   constructor(
 
@@ -34,12 +33,9 @@ export class MensajePrivadoComponent implements OnInit {
     this.contactoNuevo = localStorage.getItem("contactoNuevo") || undefined
     localStorage.removeItem("contactoNuevo")
     
-
-    // localStorage.setItem('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY4OTU5OTg1MSwianRpIjoiYjgzOGE1MzktNzlmMS00ZDIzLWI2ZGQtNTc0OWRkMzNlMTQ1IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6InBlcGVAZ21haWwuY29tIiwibmJmIjoxNjg5NTk5ODUxLCJleHAiOjE2ODk2MTUwOTEsImFkbWluIjowLCJjb3JyZW8iOiJwZXBlQGdtYWlsLmNvbSIsImFsaWFzIjoicGVwZSIsImRlc2NyaXBjaW9uIjoiIiwiZm90byI6IiJ9.h74u7A1_Dem9POKW0oCeAvdZOhWdwkDyDJceswstLg4")
     this.token = localStorage.getItem("token") || undefined
     this.ContactosService.getContactos(this.token).subscribe(
       (data:any) => {
-        console.log('JSON data: ', data);
         this.arrayContactos = data;
         this.cantidadContactos = data.contactos.length
         this.numbers = Array.from({ length: this.cantidadContactos }, (_, i) => i);
@@ -51,18 +47,13 @@ export class MensajePrivadoComponent implements OnInit {
           this.primero= this.arrayContactos["contactos"][0]
         }
 
-        // this.primero= this.arrayContactos["contactos"][0]
-      
         this.MensajesPrivadosContactoService.getMensajes(this.primero,this.token).subscribe(
           (data:any) => {
-            console.log('JSON data mensajes: ', data);
             this.arrayMensajes = data;
             this.contacto = this.primero
             
           }
         )
-
-
       }
     )
     this.mensajeForm = this.formBuilder.group({
@@ -75,7 +66,6 @@ export class MensajePrivadoComponent implements OnInit {
   submit(alias:any) {
     this.MensajesPrivadosContactoService.getMensajes(alias,this.token).subscribe(
       (data:any) => {
-        console.log('JSON data mensajes: ', data);
         this.arrayMensajes = data;
         this.contacto = alias
         
@@ -97,11 +87,11 @@ export class MensajePrivadoComponent implements OnInit {
       this.MensajePrivado.postMensajePrivado({texto:this.mensajeForm.value.texto, destinatario:destinatario},this.token).subscribe()
     }
     alert("Mensaje enviado")
+    window.location.reload();
     this.mensajeForm = this.formBuilder.group(
       {
         texto: ["", Validators.required],
       } 
     )
   }
-
 }

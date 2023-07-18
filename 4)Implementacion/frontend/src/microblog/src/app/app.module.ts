@@ -15,13 +15,9 @@ import { MuroUsuarioComponent } from './pages/muro-usuario/muro-usuario.componen
 import { HeaderComponent } from './components/header/header.component';
 import { BienvenidaComponent } from './components/bienvenida/bienvenida.component';
 import { DatosUsuarioComponent } from './components/datos-usuario/datos-usuario.component';
-import { LoginComponent } from './components/login/login.component';
 import { MensajeComponent } from './components/mensaje/mensaje.component';
 import { MensajeInputComponent } from './components/mensaje-input/mensaje-input.component';
-import { RegistrarComponent } from './components/registrar/registrar.component';
 import { PerfilUsuarioComponent } from './components/perfil-usuario/perfil-usuario.component';
-
-
 
 import { MensajePrivadoComponent } from './components/mensaje-privado/mensaje-privado.component';
 import { MensajesPrivadosComponent } from './pages/mensajes-privados/mensajes-privados.component';
@@ -42,10 +38,8 @@ import { TrendingComponent } from './components/trending/trending.component';
     HeaderComponent,
     BienvenidaComponent,
     DatosUsuarioComponent,
-    LoginComponent,
     MensajeComponent,
     MensajeInputComponent,
-    RegistrarComponent,
     TendenciasComponent,
     PerfilUsuarioComponent,
 
