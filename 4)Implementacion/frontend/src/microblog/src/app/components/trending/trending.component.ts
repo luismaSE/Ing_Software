@@ -25,7 +25,7 @@ export class TrendingComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.token = localStorage.getItem("token")
+    this.token = localStorage.getItem("token") || undefined
 
     this.HashtagTendenciaService.getHashtagTendencia().subscribe(
       (data:any) => {

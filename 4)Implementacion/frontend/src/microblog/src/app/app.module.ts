@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 // paginas
 import { HomeComponent } from './pages/home/home.component';
 import { TendenciasComponent } from './pages/tendencias/tendencias.component';
+import { MuroUsuarioComponent } from './pages/muro-usuario/muro-usuario.component';
 
 
 
@@ -18,6 +19,7 @@ import { LoginComponent } from './components/login/login.component';
 import { MensajeComponent } from './components/mensaje/mensaje.component';
 import { MensajeInputComponent } from './components/mensaje-input/mensaje-input.component';
 import { RegistrarComponent } from './components/registrar/registrar.component';
+import { PerfilUsuarioComponent } from './components/perfil-usuario/perfil-usuario.component';
 
 
 
@@ -27,7 +29,7 @@ import { MensajesPrivadosComponent } from './pages/mensajes-privados/mensajes-pr
 
 // duda
 import { MuroComponent } from './components/muro/muro.component';
-import { MuroUsuarioComponent } from './components/muro-usuario/muro-usuario.component';
+
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TrendingComponent } from './components/trending/trending.component';
@@ -45,6 +47,7 @@ import { TrendingComponent } from './components/trending/trending.component';
     MensajeInputComponent,
     RegistrarComponent,
     TendenciasComponent,
+    PerfilUsuarioComponent,
 
     MensajesPrivadosComponent,
     MensajePrivadoComponent,
@@ -58,7 +61,7 @@ import { TrendingComponent } from './components/trending/trending.component';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

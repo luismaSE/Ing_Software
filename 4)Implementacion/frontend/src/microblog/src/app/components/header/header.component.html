@@ -2,23 +2,33 @@
 
     <div class="container-fluid text-center">
 
-        <div class="col">
+        <div class="col-2">
             <div class="dropdown" *ngIf=" token !== null">
-                <button class="btn btn-primary" type="button" id="home-button" (click)="tablon()">
+                <button class="btn btn-primary mx-1" type="button" id="home-button" (click)="tablon()">
                     <i class="fa-solid fa-house" style="color: #ffffff;"></i>
                 </button>
 
-                <button class="btn btn-primary" (click)="mensajePriv()" type="button" id="privatemsg-button">
+                <button class="btn btn-primary mx-1" (click)="mensajePriv()" type="button" id="privatemsg-button">
                     <i class="fa-solid fa-comment" style="color: #ffffff;"></i>
                 </button>
 
-                <button (click)="salir()">Salir</button>
+                <button class="btn btn-primary mx-1" type="button" id="trending-button" (click)="trending()">
+                    <i class="fa-solid fa-rocket" style="color: #ffffff;"></i>
+                </button>
+
+                <button class="btn btn-danger mx-1" (click)="salir()" type="button" id="logout-button">
+                    <i class="fa-sharp fa-solid fa-arrow-right-from-bracket fa-rotate-180"></i>
+                </button>
             
             </div>
 
-            <button class="btn btn-primary mx-3" type="button" id="trending-button" (click)="trending()">
-                <i class="fa-solid fa-rocket" style="color: #ffffff;"></i>
-            </button>
+            <div class="dropdown" *ngIf=" token == null">
+
+                <button class="btn btn-primary mx-1" type="button" id="trending-button" (click)="trending()">
+                    <i class="fa-solid fa-rocket" style="color: #ffffff;"></i>
+                </button>
+            
+            </div>
 
 
         </div>
@@ -51,14 +61,18 @@
     <div class="modal-dialog" style="width: 100% ; max-width: 50%; min-width: 400px;">
         <div class="modal-content" style="width: 100% ;">
             <div class="modal-header">
-                <h1>Usuarios Encontrados</h1>
+                <h3>Usuarios Encontrados</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <div  *ngFor="let usuario of arrayUsuarios">
-                <li>{{usuario["alias"]}}</li>
+            <div class="list-group">
+                <div  *ngFor="let usuario of arrayUsuarios">
+                    <a  [routerLink]="'/muro/' + usuario.alias" class="list-group-item list-group-item-action" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-user"></i>
+                        {{ usuario.alias }}
+                    </a>
+                </div>
             </div>
-    
             <br>
         </div>
     </div>

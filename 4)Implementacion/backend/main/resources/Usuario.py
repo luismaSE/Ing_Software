@@ -36,7 +36,7 @@ class Usuario(Resource):
         mongo.db.users.update_one({"alias": alias},{'$push': {'seguidores': mi_alias}})
         mongo.db.users.update_one({"alias": mi_alias}, {'$push': {'seguidos': alias}})
 
-        return "Comenzaste de seguir a '{}'".format(alias), 200
+        return "Comenzaste a seguir a '{}'".format(alias), 200
 
 class Usuarios(Resource):
     

@@ -18,6 +18,7 @@ export class MensajePrivadoComponent implements OnInit {
   contacto: any
   mensajeForm: any;
   primero: any;
+  contactoNuevo: any
  
 
   constructor(
@@ -30,6 +31,10 @@ export class MensajePrivadoComponent implements OnInit {
 
   ngOnInit(): void {
     
+    this.contactoNuevo = localStorage.getItem("contactoNuevo") || undefined
+    localStorage.removeItem("contactoNuevo")
+    
+
     // localStorage.setItem('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY4OTU5OTg1MSwianRpIjoiYjgzOGE1MzktNzlmMS00ZDIzLWI2ZGQtNTc0OWRkMzNlMTQ1IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6InBlcGVAZ21haWwuY29tIiwibmJmIjoxNjg5NTk5ODUxLCJleHAiOjE2ODk2MTUwOTEsImFkbWluIjowLCJjb3JyZW8iOiJwZXBlQGdtYWlsLmNvbSIsImFsaWFzIjoicGVwZSIsImRlc2NyaXBjaW9uIjoiIiwiZm90byI6IiJ9.h74u7A1_Dem9POKW0oCeAvdZOhWdwkDyDJceswstLg4")
     this.token = localStorage.getItem("token") || undefined
     this.ContactosService.getContactos(this.token).subscribe(
@@ -39,8 +44,14 @@ export class MensajePrivadoComponent implements OnInit {
         this.cantidadContactos = data.contactos.length
         this.numbers = Array.from({ length: this.cantidadContactos }, (_, i) => i);
 
+        if (this.contactoNuevo != null) {
+          this.primero= this.contactoNuevo
+        }
+        else {
+          this.primero= this.arrayContactos["contactos"][0]
+        }
 
-        this.primero= this.arrayContactos["contactos"][0]
+        // this.primero= this.arrayContactos["contactos"][0]
       
         this.MensajesPrivadosContactoService.getMensajes(this.primero,this.token).subscribe(
           (data:any) => {

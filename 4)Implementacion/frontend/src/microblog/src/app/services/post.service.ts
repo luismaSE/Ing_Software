@@ -20,11 +20,10 @@ export class UsuarioService {
     return this.httpClient.get(this.url + "/" + alias);
   }
 
-  putUsuario(data: any, token:string, alias: string) {
+  putUsuario(alias: any, token:any) {
     let heads = new HttpHeaders().set('Content-Type', 'application/json').set('Access-Control-Allow-Origin', '*').set('Authorization', 'Bearer ' + token)
-    return this.httpClient.put(this.url + "/" + alias, data, {headers: heads});
+    return this.httpClient.put(this.url + "/" + alias,{}, {headers: heads});
   }
-
 }
 
 // api.add_resource(resources.UsuariosResource, "/usuarios")   #Get
@@ -88,19 +87,23 @@ export class MensajesService {
 
 // api.add_resource(resources.MensajeResource, "/mensaje/<_id>")    #Delete, #put
 
+@Injectable({
+  providedIn: 'root'
+})
+
 export class MensajeService {
-  url = "mensaje"
+  url = "http://localhost:7500/mensaje"
 
   constructor(
     private httpClient: HttpClient
   ) { }
   
-  deleteMensaje(token: string, id: number) { 
+  deleteMensaje(token: string, id: string) { 
     let heads = new HttpHeaders().set('Content-Type', 'application/json').set('Access-Control-Allow-Origin', '*').set('Authorization', 'Bearer ' + token)
     return this.httpClient.delete(this.url + "/" + id.toString(), {headers: heads})
   }  
 
-  putMensaje(data: any, token:string, id: number) {
+  putMensaje(data: any, token:string, id: string) {
     let heads = new HttpHeaders().set('Content-Type', 'application/json').set('Access-Control-Allow-Origin', '*').set('Authorization', 'Bearer ' + token)
     return this.httpClient.put(this.url + "/" + id.toString(), data, {headers: heads});
   }
@@ -108,14 +111,19 @@ export class MensajeService {
 
 // api.add_resource(resources.MensajesAutorResource, "/mensajes/<autor>")  #Get
 
+@Injectable({
+  providedIn: 'root'
+})
+
 export class MensajesAutorService {
-  url = "mensajes"
+  url = "http://localhost:7500/mensajes"
 
   constructor(
     private httpClient: HttpClient
   ) { }
 
-  getMensajes(alias: string) {
+  getMensajes(alias: string, token: string) {
+    let heads = new HttpHeaders().set('Content-Type', 'application/json').set('Access-Control-Allow-Origin', '*').set('Authorization', 'Bearer ' + token)
     return this.httpClient.get(this.url + "/" + alias);
   }
 }

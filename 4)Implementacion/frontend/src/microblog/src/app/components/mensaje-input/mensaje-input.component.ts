@@ -27,8 +27,7 @@ export class MensajeInputComponent implements OnInit {
 
     this.mensajeForm = this.formBuilder.group({
       texto: ["", Validators.required],
-    
-    }    
+      }    
     )
   }
 

@@ -34,3 +34,9 @@ Casos de Uso:
 
 Extra: 
 - Dejar de seguir usuario --> OK
+
+Frontend:
+
+en el muro mostrar mensajes de los que sigo y los propios
+los contactos serian todos los usuarios
+agregar lo de la foto

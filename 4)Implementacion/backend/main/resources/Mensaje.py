@@ -69,6 +69,8 @@ class Mensajes(Resource):
 
         seguidos = datos["seguidos"]
 
+        seguidos.append(alias)
+
         mensajes = mongo.db.messages.find({"autor": {"$in": seguidos}}).sort("fecha", -1)
 
         response = json_util.dumps(mensajes)

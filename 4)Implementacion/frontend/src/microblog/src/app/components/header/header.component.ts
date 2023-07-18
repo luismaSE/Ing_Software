@@ -50,7 +50,8 @@ export class HeaderComponent implements OnInit {
   salir() {
     localStorage.clear()
     alert("Cerraste sesión")
-    this.router.navigate([""])
+    // this.router.navigate([""])
+    window.location.replace('');
   }
 
   mensajePriv() {
@@ -60,6 +61,7 @@ export class HeaderComponent implements OnInit {
 
   tablon() {
     this.router.navigate(["tablon"])
+    
   }
 
   trending() {

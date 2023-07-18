@@ -16,6 +16,8 @@ export class BienvenidaComponent implements OnInit {
   registrarForm: any;
   loginForm: any;
   alias: any;
+  selectedFile: any;
+  base64String: string | null = null;
 
   constructor(
     private AuthService: AuthService,
@@ -34,7 +36,7 @@ export class BienvenidaComponent implements OnInit {
       contra: ["123", Validators.required],
       alias: ["Messirve", Validators.required],
       nombre: ["Messi", Validators.required],
-      foto: [""],
+      foto: [null],
       descripcion: [""],
     })
   }
@@ -63,6 +65,7 @@ export class BienvenidaComponent implements OnInit {
           foto: this.registrarForm.value.foto
         }
       )
+      console.log(">>>>>>>>>>>>>>>>>>>>>>", this.registrarForm.value.foto);
     }
   }
 
@@ -110,6 +113,34 @@ export class BienvenidaComponent implements OnInit {
     )
   }
   
+
+  onFileChange(event: any) {
+    let file = event.target.files[0];
+    if (file) {
+      const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+      if (allowedTypes.includes(file.type)) {
+        console.log('Imagen seleccionada:', file);
+
+        
+        let reader = new FileReader();
+        reader.onloadend = () => {
+
+          // Cuando la lectura del archivo ha finalizado, actualizamos el campo 'foto' del formulario con el contenido en base64
+          this.registrarForm.patchValue({
+            foto: reader.result, // La foto en base64 (ya incluye la "data:image/png;base64," parte)
+          });
+        };
+
+    
+        reader.readAsDataURL(file);
+
+      } else {
+        alert('Formato de archivo no permitido. Por favor, seleccione una imagen en formato PNG, JPEG o JPG.');
+      }
+    }
+  }
+
+
   getDecodedAccessToken(token: string): any {
     try {
       return jwt_decode(token);
@@ -117,6 +148,4 @@ export class BienvenidaComponent implements OnInit {
       return null;
     }
   }
-
 }
-

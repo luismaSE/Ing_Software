@@ -1,6 +1,8 @@
-import { UsuarioService } from './../../services/post.service'
+import { UsuarioService, MensajeService } from './../../services/post.service'
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, Input } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
+import jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'app-mensaje',
@@ -10,13 +12,45 @@ import { Component, OnInit, Input } from '@angular/core';
 export class MensajeComponent implements OnInit {
 
   @Input() mensaje:any;
+  token: any;
+  alias: any;
+  modificarForm: any;
 
   constructor(
-    private usuarioService: UsuarioService
+    private usuarioService: UsuarioService,
+    private MensajeService: MensajeService,
+    private formBuilder: FormBuilder
     ) {}
 
     ngOnInit(): void{
+      console.log(this.mensaje["texto"])
+      this.token = localStorage.getItem("token") || undefined 
+      if (this.token) {
+        this.alias = this.getDecodedAccessToken(this.token).alias
+      }
+      this.modificarForm = this.formBuilder.group({
+        texto: [this.mensaje["texto"],Validators.required]
+      })
     }
-  
+
+    getDecodedAccessToken(token: any): any {
+      try {
+        return jwt_decode(token);
+      } catch(Error) {
+        return null;
+      }
+    }
+    
+    delete(id: any) {
+      this.MensajeService.deleteMensaje(this.token, id).subscribe()
+      alert("Mensaje eliminado ")
+    }
+
+    update(id: any) {
+      console.log("<<" , this.modificarForm.value.texto)
+      this.MensajeService.putMensaje({texto:this.modificarForm.value.texto},this.token, id).subscribe()
+      alert("Mensaje editado")
+    }
+
 }
 
