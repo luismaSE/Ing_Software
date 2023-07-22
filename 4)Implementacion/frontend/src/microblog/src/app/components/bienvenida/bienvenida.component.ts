@@ -32,12 +32,12 @@ export class BienvenidaComponent implements OnInit {
       contra: ["123", Validators.required],
     })
     this.registrarForm = this.formBuilder.group({
-      email: ["messi@gmail.com", Validators.required],
+      email: ["pepe@gmail.com", Validators.required],
       contra: ["123", Validators.required],
-      alias: ["Messirve", Validators.required],
-      nombre: ["Messi", Validators.required],
+      alias: ["pepe", Validators.required],
+      nombre: ["Don Pepe", Validators.required],
       foto: [null],
-      descripcion: ["Lionel Andrés Messi Cuccittini (Rosario, Argentina, 24 de junio de 1987), conocido como Leo Messi, es un futbolista argentino que juega como delantero en el Inter de Miami de la Major League Soccer de Estados Unidos. Es también internacional con la selección de Argentina, equipo del que es capitán."],
+      descripcion: ["Hola como andas? Soy el Pepe"],
     })
   }
 
