@@ -5,5 +5,5 @@
 **/share
 **/__pycache__
 pyvenv.cfg
-#.env 
+**.env 
 **/.DS_Store
